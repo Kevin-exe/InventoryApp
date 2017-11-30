@@ -1,11 +1,13 @@
 package edu.dtcc.inventoryapp;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,9 +54,13 @@ public class CustomListAdapter extends BaseAdapter implements ListAdapter
             view = inflater.inflate(R.layout.list_item_folder, null);
         }
 
-        // set the item text
+        // set the list item text
         TextView listItemText = (TextView) view.findViewById(R.id.folderText);
         listItemText.setText(list.get(position));
+
+        // set the list item image
+        ImageView listItemImage = (ImageView)view.findViewById(R.id.folderImage);
+        listItemImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.folder));
 
         // onClick listener for edit button
         Button editButton = (Button) view.findViewById(R.id.folder_button);
