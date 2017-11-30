@@ -18,9 +18,6 @@ public class CustomListAdapter extends BaseAdapter implements ListAdapter
 
     private Context context;
 
-    // variable for the current list item's position
-    private int currentItemPosition;
-
     // counter variable for the number of list items
     private int itemCount;
 
@@ -44,14 +41,11 @@ public class CustomListAdapter extends BaseAdapter implements ListAdapter
         return 0;
     }
 
-    public int getCurrentItemPosition() {return currentItemPosition;}
-
     public int getItemCount() {return itemCount;}
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent)
     {
-        currentItemPosition = position + 1;
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

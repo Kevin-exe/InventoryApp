@@ -58,16 +58,14 @@ public class MainActivity extends AppCompatActivity {
         // onClick listener for the listView (not the edit buttons)
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //long viewId = view.getId();
-                //int position = (Integer)view.getTag();
-                int position = adapter.getCurrentItemPosition();
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                position++;
                 int count = adapter.getItemCount();
 
                 theToasting(position + " out of " + count);
             }
         });
-
     }
 
     private void customAlertDialog()
