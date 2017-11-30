@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:onClick="sqlOption"
+        android:id="@+id/select_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select All" />
+
+    <Button
+        android:onClick="sqlOption"
+        android:id="@+id/select_testing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test Selection" />
+
+    <EditText
+        android:id="@+id/test_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:onClick="sqlOption"
+        android:id="@+id/add_folder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Folder" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Folder Name" />
+
+    <EditText
+        android:id="@+id/folder_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Folder Parent" />
+
+    <EditText
+        android:id="@+id/folder_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:onClick="sqlOption"
+        android:id="@+id/delete_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete All" />
+
+    <Button
+        android:onClick="toMainMenu"
+        android:id="@+id/sql_test_TO_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Main Menu" />
+
+</LinearLayout>
