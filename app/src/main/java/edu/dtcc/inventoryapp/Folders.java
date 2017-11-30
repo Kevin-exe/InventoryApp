@@ -11,6 +11,8 @@ public class Folders {
     static private String folderName;
     static private String folderParent;
 
+    public Folders() {}
+
     public Folders(String folderID, String folderName, String folderParent) {
         this.folderID = folderID;
         this.folderName = folderName;
@@ -21,19 +23,19 @@ public class Folders {
         return folderID;
     }
     public void setfolderID(String folderID) {
-        this.folderID = folderID;
+        Folders.folderID = folderID;
     }
     public String getfolderName() {
         return folderName;
     }
     public void setfolderName(String folderName) {
-        this.folderName = folderName;
+        Folders.folderName = folderName;
     }
     public String getfolderParent() {
         return folderParent;
     }
     public void setfolderParent(String folderParent) {
-        this.folderParent = folderParent;
+        Folders.folderParent = folderParent;
     }
 
 

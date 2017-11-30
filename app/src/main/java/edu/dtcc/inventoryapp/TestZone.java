@@ -48,11 +48,14 @@ public class TestZone {
         db.close();
     }
     private void getValues(){
+        Folders folder = new Folders();
         EditText folderName = (EditText) activity.findViewById(R.id.folder_name);
         EditText folderParent = (EditText) activity.findViewById(R.id.folder_parent);
+        String bufferFolderName = folderName.getText().toString();
+        String bufferFolderParent = folderParent.getText().toString();
 
-        folder.setfolderName(folderName.getText().toString());
-        folder.setfolderParent(folderParent.getText().toString());
+        folder.setfolderName(bufferFolderName);
+        folder.setfolderParent(bufferFolderParent);
     }
 
     public void selectAll(){

@@ -14,14 +14,12 @@ import java.util.ArrayList;
 
 public class CustomListAdapter extends BaseAdapter implements ListAdapter
 {
-    // ArrayList of strings to hold the list items
     private ArrayList<String> list;
 
-    // Context variable
     private Context context;
 
     // variable for the current list item's position
-    private int itemPosition;
+    private int currentItemPosition;
 
     // counter variable for the number of list items
     private int itemCount;
@@ -46,14 +44,14 @@ public class CustomListAdapter extends BaseAdapter implements ListAdapter
         return 0;
     }
 
-    public int getItemPosition() {return itemPosition;}
+    public int getCurrentItemPosition() {return currentItemPosition;}
 
     public int getItemCount() {return itemCount;}
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent)
     {
-        itemPosition = position + 1;
+        currentItemPosition = position + 1;
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -61,11 +59,11 @@ public class CustomListAdapter extends BaseAdapter implements ListAdapter
         }
 
         // set the item text
-        TextView listItemText = view.findViewById(R.id.folderText);
+        TextView listItemText = (TextView) view.findViewById(R.id.folderText);
         listItemText.setText(list.get(position));
 
         // onClick listener for edit button
-        Button editButton = view.findViewById(R.id.folder_button);
+        Button editButton = (Button) view.findViewById(R.id.folder_button);
         editButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
