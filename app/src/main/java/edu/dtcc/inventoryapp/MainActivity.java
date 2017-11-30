@@ -90,16 +90,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 adapter.addItems();
-                theToasting("Testing creating folder");
             }
         });
 
+        //temporary bug. Change to file creation later instead of delete.
         create_file.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
                 adapter.deleteItems(0);
-                theToasting("Testing creating file");
             }
         });
 

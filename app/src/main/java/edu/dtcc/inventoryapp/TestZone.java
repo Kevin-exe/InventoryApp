@@ -41,21 +41,18 @@ public class TestZone {
 
         getValues();
         ContentValues values = new ContentValues();
-        values.put(Inventory.Folders.FOLDER_NAME_COLUMN, folder.getfolderName());
-        values.put(Inventory.Folders.FOLDER_PARENT_COLUMN, folder.getfolderParent());
+        values.put(Inventory.Folders.FOLDER_NAME_COLUMN, Folders.folderID);
+        values.put(Inventory.Folders.FOLDER_PARENT_COLUMN, Folders.folderParent);
 
         db.insert(Inventory.Folders.TABLE_NAME, null, values);
         db.close();
     }
     private void getValues(){
-        Folders folder = new Folders();
         EditText folderName = (EditText) activity.findViewById(R.id.folder_name);
         EditText folderParent = (EditText) activity.findViewById(R.id.folder_parent);
-        String bufferFolderName = folderName.getText().toString();
-        String bufferFolderParent = folderParent.getText().toString();
 
-        folder.setfolderName(bufferFolderName);
-        folder.setfolderParent(bufferFolderParent);
+        Folders.folderID = folderName.getText().toString();
+        Folders.folderParent = folderParent.getText().toString();
     }
 
     public void selectAll(){
@@ -106,26 +103,25 @@ public class TestZone {
                 sortOrder
         );
 
-
-
         if (cursor.moveToFirst()) {
             do {
                 rowDetails.add(cursor.getString(0));
+                System.out.println("Acquiring cursor data: " + cursor.getString(0));
             } while (cursor.moveToNext());
 
             for (String Name : rowDetails) {
-                System.out.println(Name);
+                System.out.println("Test select: " + Name);
             }
         }
 
         /*try {
-            folder.setfolderID(rowDetails.get(0));
-            folder.setfolderName(rowDetails.get(1));
-            folder.setfolderParent(rowDetails.get(2));
+            Folders.folderID = (rowDetails.get(0));
+            Folders.folderName = (rowDetails.get(1));
+            Folders.folderParent = (rowDetails.get(2));
 
-            System.out.println("ID: " + folder.getfolderID());
-            System.out.println("Name: " + folder.getfolderName());
-            System.out.println("Parent: " + folder.getfolderParent());
+            System.out.println("ID: " + Folders.folderID);
+            System.out.println("Name: " + Folders.folderName);
+            System.out.println("Parent: " + Folders.folderParent);
         } catch (Exception e){
             System.out.println("getCursor error: " + e.getMessage());
         }*/

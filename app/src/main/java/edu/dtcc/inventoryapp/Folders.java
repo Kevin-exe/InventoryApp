@@ -7,9 +7,9 @@ import java.util.ArrayList;
  */
 
 public class Folders {
-    static private String folderID;
-    static private String folderName;
-    static private String folderParent;
+    static public String folderID;
+    static public String folderName;
+    static public String folderParent;
 
     public Folders() {}
 

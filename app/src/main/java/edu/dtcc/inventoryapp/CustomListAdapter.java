@@ -19,7 +19,7 @@ public class CustomListAdapter extends BaseAdapter implements ListAdapter
     private Context context;
 
     // variable for the current list item's position
-    private int currentItemPosition;
+    static private int currentItemPosition;
 
     // counter variable for the number of list items
     private int itemCount;
