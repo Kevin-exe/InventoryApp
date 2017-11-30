@@ -1,11 +1,13 @@
 package edu.dtcc.inventoryapp;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,9 +19,6 @@ public class CustomListAdapter extends BaseAdapter implements ListAdapter
     private ArrayList<String> list;
 
     private Context context;
-
-    // variable for the current list item's position
-    static private int currentItemPosition;
 
     // counter variable for the number of list items
     private int itemCount;
@@ -44,23 +43,24 @@ public class CustomListAdapter extends BaseAdapter implements ListAdapter
         return 0;
     }
 
-    public int getCurrentItemPosition() {return currentItemPosition;}
-
     public int getItemCount() {return itemCount;}
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent)
     {
-        currentItemPosition = position + 1;
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.list_item_folder, null);
         }
 
-        // set the item text
+        // set the list item text
         TextView listItemText = (TextView) view.findViewById(R.id.folderText);
         listItemText.setText(list.get(position));
+
+        // set the list item image
+        ImageView listItemImage = (ImageView)view.findViewById(R.id.folderImage);
+        listItemImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.folder));
 
         // onClick listener for edit button
         Button editButton = (Button) view.findViewById(R.id.folder_button);
