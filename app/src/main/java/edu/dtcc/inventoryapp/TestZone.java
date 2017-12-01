@@ -91,6 +91,7 @@ public class TestZone {
 
         collectCursorData(cursor, folderContent);
 
+        return folderContent;
     }
 
     //method used for collecting single-column returns
