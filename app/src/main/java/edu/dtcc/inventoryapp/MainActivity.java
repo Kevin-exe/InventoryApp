@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void customAlertDialog()
+    public void customAlertDialog()
     {
         myDialog = new Dialog(MainActivity.this);
         myDialog.setContentView(R.layout.customdialog);
