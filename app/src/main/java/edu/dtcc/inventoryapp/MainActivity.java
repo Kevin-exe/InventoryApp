@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         activity = MainActivity.this;
     }
 
-    protected void displayDialog(View button) {
+    public void displayDialog(View button) {
         switch (button.getId()) {
             case R.id.addButton: customAlertDialog(); break;
         }
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void customAlertDialog()
+    public void customAlertDialog()
     {
         myDialog = new Dialog(MainActivity.this);
         myDialog.setContentView(R.layout.customdialog);
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void nextMenu(View button){
+    public void nextMenu(View button){
         updateContexts();
 
         switch (button.getId()) {
