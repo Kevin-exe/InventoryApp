@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected void toMainMenu(View button) {
         setContentView(R.layout.activity_main);
+        updateContexts();
     }
 
     private void theToasting(String message) {

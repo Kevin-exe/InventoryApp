@@ -7,48 +7,11 @@ import java.util.ArrayList;
  */
 
 public class FileData {
-    private String fileID;
-    private String fileName;
-    private String description;
-    private String value;
-    private String location;
+    static public String fileID;
+    static public String fileName;
+    static public String description;
+    static public String value;
+    static public String location;
 
-    public FileData(String fileName, String description, String value, String location) {
-        this.fileName = fileName;
-        this.description = description;
-        this.value = value;
-        this.location = location;
-    }
-
-    public String getfileID() {
-        return fileID;
-    }
-    public void setfileID(String fileID) {
-        this.fileID = fileID;
-    }
-    public String getfileName() {
-        return fileName;
-    }
-    public void setfileName(String fileName) {
-        this.fileName = fileName;
-    }
-    public String getdescription() {
-        return description;
-    }
-    public void setdescription(String description) {
-        this.description = description;
-    }
-    public String getvalue() {
-        return value;
-    }
-    public void setvalue(String value) {
-        this.value = value;
-    }
-    public String getlocation() {
-        return location;
-    }
-    public void setlocation(String location) {
-        this.location = location;
-    }
 
 }

@@ -16,6 +16,7 @@ public class TestZone {
     private Activity activity;
     private DatabaseHandler inventoryData;
     private SQLiteDatabase db;
+    private ContentValues values;
     private int counter;
     Folders folder;
     Files file;
@@ -33,15 +34,19 @@ public class TestZone {
         }
     }
     public void deleteDB(){
+        db = inventoryData.getWritableDatabase();
         db.execSQL(Inventory.SQL_DELETE_FOLDERS);
+        db.execSQL(Inventory.SQL_CREATE_FOLDERS);
+
+        db.close();
     }
 
     public void createNewFolder(){
         db = inventoryData.getWritableDatabase();
 
         getValues();
-        ContentValues values = new ContentValues();
-        values.put(Inventory.Folders.FOLDER_NAME_COLUMN, Folders.folderID);
+        values = new ContentValues();
+        values.put(Inventory.Folders.FOLDER_NAME_COLUMN, Folders.folderName);
         values.put(Inventory.Folders.FOLDER_PARENT_COLUMN, Folders.folderParent);
 
         db.insert(Inventory.Folders.TABLE_NAME, null, values);
@@ -51,8 +56,57 @@ public class TestZone {
         EditText folderName = (EditText) activity.findViewById(R.id.folder_name);
         EditText folderParent = (EditText) activity.findViewById(R.id.folder_parent);
 
-        Folders.folderID = folderName.getText().toString();
+        Folders.folderName = folderName.getText().toString();
         Folders.folderParent = folderParent.getText().toString();
+    }
+
+    public void createNewFile() {
+        db = inventoryData.getWritableDatabase();
+
+        values = new ContentValues();
+        values.put(Inventory.Files.FILE_NAME_COLUMN, Files.fileName);
+        values.put(Inventory.Files.FILE_PARENT_COLUMN, Files.fileParent);
+
+        db.insert(Inventory.Files.TABLE_NAME, null, values);
+
+        values = new ContentValues();
+        values.put(Inventory.FileData.FILE_NAME_COLUMN, FileData.fileName);
+        values.put(Inventory.FileData.DESCRIPTION_COLUMN, FileData.description);
+        values.put(Inventory.FileData.VALUE_COLUMN, FileData.value);
+        values.put(Inventory.FileData.LOCATION_COLUMN, FileData.location);
+
+        db.insert(Inventory.FileData.TABLE_NAME, null, values);
+
+        db.close();
+    }
+
+    public ArrayList<String> getFolderContent(String parentDirectory) {
+        db = inventoryData.getReadableDatabase();
+
+        ArrayList<String> folderContent = new ArrayList<>();
+        ArrayList<String> contentType = new ArrayList<>();
+
+        String selectContent = createContentSQLselect(Inventory.Folders.FOLDER_NAME_COLUMN, Inventory.Folders.TABLE_NAME, Inventory.Folders.FOLDER_PARENT_COLUMN, parentDirectory);
+        Cursor cursor = db.rawQuery(selectContent, null);
+
+        collectCursorData(cursor, folderContent);
+
+    }
+
+    //method used for collecting single-column returns
+    private void collectCursorData(Cursor cursor, ArrayList<String> cursorData) {
+        if (cursor.moveToFirst()) {
+            do {
+                cursorData.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+
+
+    }
+
+    private String createContentSQLselect(String column, String table, String whereColumn, String argument) {
+        return String.format("SELECT %1s FROM %2s WHERE %3s = %4s", column, table, whereColumn, argument);
+
     }
 
     public void selectAll(){
@@ -100,9 +154,15 @@ public class TestZone {
                 selectionArgs,
                 null,
                 null,
-                sortOrder
+                null
         );
 
+        System.out.println("Argument =" + arg + "|");
+
+        cursor.moveToFirst();
+        System.out.println("preCursor: "+ cursor.getString(0));
+        System.out.println("preCursor: "+ cursor.getString(1));
+        System.out.println("preCursor: "+ cursor.getString(2));
         if (cursor.moveToFirst()) {
             do {
                 rowDetails.add(cursor.getString(0));
