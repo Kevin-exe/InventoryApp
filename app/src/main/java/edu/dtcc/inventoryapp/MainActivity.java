@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void displayDialog(View button) {
+        updateContexts();
         switch (button.getId()) {
             case R.id.addButton: customAlertDialog(); break;
         }
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void customAlertDialog()
     {
-        myDialog = new Dialog(MainActivity.this);
+        myDialog = new Dialog(activity);
         myDialog.setContentView(R.layout.customdialog);
         myDialog.setTitle("My Custom Dialog Box");
 
