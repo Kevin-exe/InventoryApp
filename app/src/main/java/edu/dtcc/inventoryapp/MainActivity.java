@@ -42,14 +42,14 @@ public class MainActivity extends AppCompatActivity {
         activity = MainActivity.this;
     }
 
-    protected void displayDialog(View button) {
+    public void displayDialog(View button) {
         switch (button.getId()) {
             case R.id.addButton: customAlertDialog(); break;
         }
     }
     private void createListView(){
         // initialize custom adapter
-        adapter = new CustomListAdapter(list, getApplicationContext());
+        adapter = new CustomListAdapter(list, context);
 
         // initialize the list and set the adapter
         listView = (ListView) findViewById(R.id.list);
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         myDialog.show();
     }
 
-    protected void sqlOption(View button) {
+    public void sqlOption(View button) {
         updateContexts();
 
         TestZone testing = new TestZone(context, activity);
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void nextMenu(View button){
+    public void nextMenu(View button){
         updateContexts();
 
         switch (button.getId()) {
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    protected void toMainMenu(View button) {
+    public void toMainMenu(View button) {
         setContentView(R.layout.activity_main);
         updateContexts();
     }
