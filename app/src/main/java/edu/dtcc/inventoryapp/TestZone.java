@@ -3,13 +3,11 @@ package edu.dtcc.inventoryapp;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.EditText;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class TestZone {
@@ -19,17 +17,11 @@ public class TestZone {
     private ContentValues values;
     private int counter;
     private String selectContent;
-    Folders folder;
-    Files file;
-    FileData fileData;
 
     public TestZone(Context context, Activity activity){
         try {
             this.activity = activity;
             inventoryData = new DatabaseHandler(context);
-//            insertIntoDB();
-//            getFromDB();
-//            selectAll();
         } catch (Exception e) {
             System.out.println("TestZone Error: " + e.getMessage());
         }
@@ -48,8 +40,8 @@ public class TestZone {
         //remove getValues later
         getValues();
         values = new ContentValues();
-        values.put(Inventory.Folders.FOLDER_NAME_COLUMN, Folders.folderName);
-        values.put(Inventory.Folders.FOLDER_PARENT_COLUMN, Folders.folderParent);
+        values.put(Inventory.Folders.FOLDER_NAME_COLUMN, FolderData.folderName);
+        values.put(Inventory.Folders.FOLDER_PARENT_COLUMN, FolderData.folderParent);
 
         db.insert(Inventory.Folders.TABLE_NAME, null, values);
         db.close();
@@ -58,16 +50,16 @@ public class TestZone {
         EditText folderName = (EditText) activity.findViewById(R.id.folder_name);
         EditText folderParent = (EditText) activity.findViewById(R.id.folder_parent);
 
-        Folders.folderName = folderName.getText().toString();
-        Folders.folderParent = folderParent.getText().toString();
+        FolderData.folderName = folderName.getText().toString();
+        FolderData.folderParent = folderParent.getText().toString();
     }
 
     public void createNewFile() {
         db = inventoryData.getWritableDatabase();
 
         values = new ContentValues();
-        values.put(Inventory.Files.FILE_NAME_COLUMN, Files.fileName);
-        values.put(Inventory.Files.FILE_PARENT_COLUMN, Files.fileParent);
+        values.put(Inventory.Files.FILE_NAME_COLUMN, FileData.fileName);
+        values.put(Inventory.Files.FILE_PARENT_COLUMN, FileData.fileParent);
 
         db.insert(Inventory.Files.TABLE_NAME, null, values);
 
@@ -148,7 +140,6 @@ public class TestZone {
                 System.out.println(Name);
             }
         }
-
         cursor.close();
 
     }
@@ -197,13 +188,13 @@ public class TestZone {
         }
 
         /*try {
-            Folders.folderID = (rowDetails.get(0));
-            Folders.folderName = (rowDetails.get(1));
-            Folders.folderParent = (rowDetails.get(2));
+            FolderData.folderID = (rowDetails.get(0));
+            FolderData.folderName = (rowDetails.get(1));
+            FolderData.folderParent = (rowDetails.get(2));
 
-            System.out.println("ID: " + Folders.folderID);
-            System.out.println("Name: " + Folders.folderName);
-            System.out.println("Parent: " + Folders.folderParent);
+            System.out.println("ID: " + FolderData.folderID);
+            System.out.println("Name: " + FolderData.folderName);
+            System.out.println("Parent: " + FolderData.folderParent);
         } catch (Exception e){
             System.out.println("getCursor error: " + e.getMessage());
         }*/

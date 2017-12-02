@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class FileData {
     static public String fileID;
     static public String fileName;
+    static public String fileParent;
     static public String description;
     static public String value;
     static public String location;
