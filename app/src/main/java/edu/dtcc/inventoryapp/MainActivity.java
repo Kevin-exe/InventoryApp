@@ -21,6 +21,10 @@ public class MainActivity extends AppCompatActivity {
     Dialog myDialog;
     Button create_folder, create_file, close;
 
+    //Temporary testing ArrayLists for folderContent
+    ArrayList<String> folderContentNames = new ArrayList<>();
+    ArrayList<String> folderContentTypes = new ArrayList<>();
+
     // ArrayList of strings to hold the list items
     ArrayList<String> list = new ArrayList<>();
 
@@ -115,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
         updateContexts();
 
         TestZone testing = new TestZone(context, activity);
+        ArrayList<ArrayList<String>> folderContent = new ArrayList<>();
+
 
         try {
             switch (button.getId()) {
@@ -129,6 +135,15 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.delete_all:
                     testing.deleteDB();
+                    break;
+                case R.id.get_contents:
+                    folderContent.addAll(testing.getFolderContent("Home"));
+                    folderContentNames.addAll(folderContent.get(0));
+                    folderContentTypes.addAll(folderContent.get(1));
+
+                    for (int x = 0; x < folderContentNames.size(); x++) {
+                        System.out.println("Folder: " + folderContentNames.get(x) + "\tType: " + folderContentTypes.get(x));
+                    }
                     break;
             }
         } catch (Exception e) {

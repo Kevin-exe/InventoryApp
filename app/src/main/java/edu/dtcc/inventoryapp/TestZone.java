@@ -3,6 +3,7 @@ package edu.dtcc.inventoryapp;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.EditText;
@@ -16,7 +17,10 @@ public class TestZone {
     private SQLiteDatabase db;
     private ContentValues values;
     private int counter;
-    private String selectContent;
+    private String selection;
+    private String[] args;
+    private FolderData folderData;
+    private FileData fileData;
 
     public TestZone(Context context, Activity activity){
         try {
@@ -36,38 +40,40 @@ public class TestZone {
 
     public void createNewFolder(){
         db = inventoryData.getWritableDatabase();
+        folderData = new FolderData();
 
         //remove getValues later
-        getValues();
+        getValues(folderData);
         values = new ContentValues();
-        values.put(Inventory.Folders.FOLDER_NAME_COLUMN, FolderData.folderName);
-        values.put(Inventory.Folders.FOLDER_PARENT_COLUMN, FolderData.folderParent);
+        values.put(Inventory.Folders.FOLDER_NAME_COLUMN, folderData.getFolderName());
+        values.put(Inventory.Folders.FOLDER_PARENT_COLUMN, folderData.getFolderParent());
 
         db.insert(Inventory.Folders.TABLE_NAME, null, values);
         db.close();
     }
-    private void getValues(){
+    private void getValues(FolderData folderData){
         EditText folderName = (EditText) activity.findViewById(R.id.folder_name);
         EditText folderParent = (EditText) activity.findViewById(R.id.folder_parent);
 
-        FolderData.folderName = folderName.getText().toString();
-        FolderData.folderParent = folderParent.getText().toString();
+        folderData.setFolderName(folderName.getText().toString());
+        folderData.setFolderParent(folderParent.getText().toString());
     }
 
     public void createNewFile() {
         db = inventoryData.getWritableDatabase();
+        fileData = new FileData();
 
         values = new ContentValues();
-        values.put(Inventory.Files.FILE_NAME_COLUMN, FileData.fileName);
-        values.put(Inventory.Files.FILE_PARENT_COLUMN, FileData.fileParent);
+        values.put(Inventory.Files.FILE_NAME_COLUMN, fileData.getFileName());
+        values.put(Inventory.Files.FILE_PARENT_COLUMN, fileData.getFileParent());
 
         db.insert(Inventory.Files.TABLE_NAME, null, values);
 
         values = new ContentValues();
-        values.put(Inventory.FileData.FILE_NAME_COLUMN, FileData.fileName);
-        values.put(Inventory.FileData.DESCRIPTION_COLUMN, FileData.description);
-        values.put(Inventory.FileData.VALUE_COLUMN, FileData.value);
-        values.put(Inventory.FileData.LOCATION_COLUMN, FileData.location);
+        values.put(Inventory.FileData.FILE_NAME_COLUMN, fileData.getFileName());
+        values.put(Inventory.FileData.DESCRIPTION_COLUMN, fileData.getDescription());
+        values.put(Inventory.FileData.VALUE_COLUMN, fileData.getValue());
+        values.put(Inventory.FileData.LOCATION_COLUMN, fileData.getLocation());
 
         db.insert(Inventory.FileData.TABLE_NAME, null, values);
 
@@ -84,19 +90,30 @@ public class TestZone {
         folderContent.add(new ArrayList<String>());
         folderContent.add(new ArrayList<String>());
 
-        selectContent = createContentSQLselect(Inventory.Folders.FOLDER_NAME_COLUMN, Inventory.Folders.TABLE_NAME, Inventory.Folders.FOLDER_PARENT_COLUMN, parentDirectory);
-        cursor = db.rawQuery(selectContent, null);
+        selection = createContentSQLselect(
+                Inventory.Folders.FOLDER_NAME_COLUMN,
+                Inventory.Folders.TABLE_NAME,
+                Inventory.Folders.FOLDER_PARENT_COLUMN,
+                parentDirectory
+        );
+        cursor = db.rawQuery(selection, null);
 
         collectCursorData(cursor, folderContent.get(0));
         folderQuantity = folderContent.get(0).size();
         fillContentType("Folder", folderQuantity, folderContent.get(1));
 
-        selectContent = createContentSQLselect(Inventory.Files.FILE_NAME_COLUMN, Inventory.Files.TABLE_NAME, Inventory.Files.FILE_PARENT_COLUMN, parentDirectory);
-        cursor = db.rawQuery(selectContent, null);
+        //Disabled until Interface for file Creation is created
+        /*selection = createContentSQLselect(
+                Inventory.Files.FILE_NAME_COLUMN,
+                Inventory.Files.TABLE_NAME,
+                Inventory.Files.FILE_PARENT_COLUMN,
+                parentDirectory
+        );
+        cursor = db.rawQuery(selection, null);
 
         collectCursorData(cursor, folderContent.get(0));
         fileQuantity = folderContent.get(0).size() - folderQuantity;
-        fillContentType("File", fileQuantity, folderContent.get(1));
+        fillContentType("File", fileQuantity, folderContent.get(1));*/
 
         db.close();
         cursor.close();
@@ -104,25 +121,91 @@ public class TestZone {
         return folderContent;
     }
 
-    //method used for collecting single-column returns
-    private void collectCursorData(Cursor cursor, ArrayList<String> cursorData) {
+        //method used for collecting single-column returns
+        private void collectCursorData(Cursor cursor, ArrayList<String> cursorData) {
+            if (cursor.moveToFirst()) {
+                do {
+                    cursorData.add(cursor.getString(0));
+                } while (cursor.moveToNext());
+            }
+        }
+        private void fillContentType(String type, int size, ArrayList<String> contentType){
+            for(int x = 0; x < size; x++){
+                contentType.add(type);
+            }
+        }
+        private String createContentSQLselect(String column, String table, String whereColumn, String argument) {
+            return String.format("SELECT %1s FROM %2s WHERE %3s = '%4s'", column, table, whereColumn, argument);
+        }
+
+    public void getFileContentFromDB(String fileName) {
+        db = inventoryData.getReadableDatabase();
+
+        String[] projection = {
+                Inventory.FileData.FILE_NAME_COLUMN,
+                Inventory.FileData.DESCRIPTION_COLUMN,
+                Inventory.FileData.VALUE_COLUMN,
+                Inventory.FileData.LOCATION_COLUMN
+        };
+
+        String selection = Inventory.FileData.FILE_NAME_COLUMN + " = ?";
+        String[] selectionArgs = {fileName};
+
+
+        Cursor cursor = db.query(
+                Inventory.Folders.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+
         if (cursor.moveToFirst()) {
-            do {
-                cursorData.add(cursor.getString(0));
-            } while (cursor.moveToNext());
+            fileData.setFileName(cursor.getString(0));
+            fileData.setDescription(cursor.getString(1));
+            fileData.setValue(cursor.getString(2));
+            fileData.setLocation(cursor.getString(3));
         }
-    }
-    private void fillContentType(String type, int size, ArrayList<String> contentType){
-        for(int x = 0; x < size; x++){
-            contentType.add(type);
-        }
+
+        cursor.close();
+        db.close();
     }
 
-    private String createContentSQLselect(String column, String table, String whereColumn, String argument) {
-        return String.format("SELECT %1s FROM %2s WHERE %3s = %4s", column, table, whereColumn, argument);
+    //todo create loop to delete heirarchies
+    public void deleteFolder(String folderName){
+        db = inventoryData.getWritableDatabase();
+
+        selection = Inventory.Folders.FOLDER_NAME_COLUMN + " LIKE ?";
+        String[] args = {folderName};
+
+        db.delete(Inventory.Folders.TABLE_NAME, selection, args);
+
+        selection = Inventory.Folders.FOLDER_PARENT_COLUMN + " LIKE ?";
+
+        db.delete(Inventory.Folders.TABLE_NAME, selection, args);
+
+        db.close();
 
     }
 
+    public void deleteFile(String fileName){
+        db = inventoryData.getWritableDatabase();
+
+        selection = Inventory.Files.FILE_NAME_COLUMN + " LIKE ?";
+        String[] args = {fileName};
+
+        db.delete(Inventory.Files.TABLE_NAME, selection, args);
+
+        selection = Inventory.FileData.FILE_NAME_COLUMN + "LIKE ?";
+
+        db.delete(Inventory.FileData.TABLE_NAME, selection, args);
+
+        db.close();
+    }
+
+    //Testing
     public void selectAll(){
         db = inventoryData.getReadableDatabase();
         ArrayList<String> names = new ArrayList<>();
@@ -141,8 +224,10 @@ public class TestZone {
             }
         }
         cursor.close();
+        db.close();
 
     }
+    //Testing
     public void getFromDB(){
         EditText userSelection = (EditText) activity.findViewById(R.id.test_select);
         String arg = userSelection.getText().toString();

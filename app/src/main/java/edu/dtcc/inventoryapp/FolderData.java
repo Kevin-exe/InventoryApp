@@ -7,10 +7,33 @@ import java.util.ArrayList;
  */
 
 public class FolderData {
-    static public String folderID;
-    static public String folderName;
-    static public String folderParent;
+    private String folderID;
+    private String folderName;
+    private String folderParent;
 
-    private FolderData() {}
+    public FolderData() {}
 
+    public String getFolderID() {
+        return folderID;
+    }
+
+    public void setFolderID(String folderID) {
+        this.folderID = folderID;
+    }
+
+    public String getFolderName() {
+        return folderName;
+    }
+
+    public void setFolderName(String folderName) {
+        this.folderName = folderName;
+    }
+
+    public String getFolderParent() {
+        return folderParent;
+    }
+
+    public void setFolderParent(String folderParent) {
+        this.folderParent = folderParent;
+    }
 }

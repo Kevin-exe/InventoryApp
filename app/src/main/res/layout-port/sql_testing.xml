@@ -71,4 +71,11 @@
         android:layout_height="wrap_content"
         android:text="Main Menu" />
 
+    <Button
+        android:onClick="sqlOption"
+        android:id="@+id/get_contents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get Home Contents" />
+
 </LinearLayout>
