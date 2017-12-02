@@ -1,5 +1,6 @@
 package edu.dtcc.inventoryapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -19,14 +20,17 @@ public class CustomListAdapter extends BaseAdapter implements ListAdapter
     private ArrayList<String> list;
 
     private Context context;
+    private Activity activity;
 
     // counter variable for the number of list items
     private int itemCount;
 
     // constructor that accepts an ArrayList of strings and Context
-    public CustomListAdapter(ArrayList<String> list, Context context) {
+    public CustomListAdapter(ArrayList<String> list, Context context, Activity activity) {
         this.list = list;
         this.context = context;
+        this.activity = activity;
+        itemCount = 0;
     }
 
     @Override
@@ -58,9 +62,12 @@ public class CustomListAdapter extends BaseAdapter implements ListAdapter
         TextView listItemText = (TextView) view.findViewById(R.id.folderText);
         listItemText.setText(list.get(position));
 
+        TestZone zone = new TestZone(context, activity);
+
         // set the list item image
         ImageView listItemImage = (ImageView)view.findViewById(R.id.folderImage);
-        listItemImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.folder));
+        if (zone.getFolderContent("Home").get(1).get(position).equals("Item"))
+            listItemImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.folder));
 
         // onClick listener for edit button
         Button editButton = (Button) view.findViewById(R.id.folder_button);

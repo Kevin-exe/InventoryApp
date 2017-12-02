@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void createListView(){
         // initialize custom adapter
-        adapter = new CustomListAdapter(list, context);
+        adapter = new CustomListAdapter(list, context, activity);
 
         // initialize the list and set the adapter
         listView = (ListView) findViewById(R.id.list);
