@@ -6,18 +6,18 @@ import java.util.ArrayList;
  * Created by Kevin on 12/2/17.
  */
 
-public class FolderContent {
+class FolderContent {
 
     private ArrayList<String> names = new ArrayList<>();
     private ArrayList<String> types = new ArrayList<>();
 
-    public FolderContent(){}
+    FolderContent(){}
 
-    public FolderContent(ArrayList<String> names, ArrayList<String> types) {
+    FolderContent(ArrayList<String> names, ArrayList<String> types) {
         this.names.addAll(names);
         this.types.addAll(types);
     }
-    public ArrayList<String> getNames() {
+    ArrayList<String> getNames() {
         return names;
     }
 
@@ -25,7 +25,7 @@ public class FolderContent {
         this.names.addAll(names);
     }
 
-    public ArrayList<String> getTypes() {
+    ArrayList<String> getTypes() {
         return types;
     }
 

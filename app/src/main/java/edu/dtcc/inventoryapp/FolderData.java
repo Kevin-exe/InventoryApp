@@ -1,39 +1,55 @@
 package edu.dtcc.inventoryapp;
 
-import java.util.ArrayList;
-
 /**
  * Created by Kevin on 11/27/17.
  */
 
 public class FolderData {
-    private String folderID;
-    private String folderName;
-    private String folderParent;
+    private String ID;
+    private String name;
+    private String parent;
+    private String oldName;
+    private String newName;
 
     public FolderData() {}
 
-    public String getFolderID() {
-        return folderID;
+    public String getOldName() {
+        return oldName;
     }
 
-    public void setFolderID(String folderID) {
-        this.folderID = folderID;
+    public void setOldName(String oldName) {
+        this.oldName = oldName;
     }
 
-    public String getFolderName() {
-        return folderName;
+    public String getNewName() {
+        return newName;
     }
 
-    public void setFolderName(String folderName) {
-        this.folderName = folderName;
+    public void setNewName(String newName) {
+        this.newName = newName;
     }
 
-    public String getFolderParent() {
-        return folderParent;
+    public String getID() {
+        return ID;
     }
 
-    public void setFolderParent(String folderParent) {
-        this.folderParent = folderParent;
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String folderName) {
+        this.name = folderName;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public void setParent(String folderParent) {
+        this.parent = folderParent;
     }
 }

@@ -1,43 +1,41 @@
 package edu.dtcc.inventoryapp;
 
-import java.util.ArrayList;
-
 /**
  * Created by Kevin on 11/27/17.
  */
 
 public class FileData {
-    private String fileID;
-    private String fileName;
-    private String fileParent;
+    private String ID;
+    private String name;
+    private String parent;
     private String description;
     private String value;
     private String location;
 
     public FileData() {}
 
-    public String getFileID() {
-        return fileID;
+    public String getID() {
+        return ID;
     }
 
-    public void setFileID(String fileID) {
-        this.fileID = fileID;
+    public void setID(String ID) {
+        this.ID = ID;
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getName() {
+        return name;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getFileParent() {
-        return fileParent;
+    public String getParent() {
+        return parent;
     }
 
-    public void setFileParent(String fileParent) {
-        this.fileParent = fileParent;
+    public void setParent(String parent) {
+        this.parent = parent;
     }
 
     public String getDescription() {

@@ -21,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
     Dialog myDialog;
     Button create_folder, create_file, close;
     FolderContent folderContent;
-    TestZone testing;
+    DatabaseAdder dbAdder;
+    DatabaseReader dbReader;
 
     // ArrayList of strings to hold the list items
     ArrayList<String> list = new ArrayList<>();
@@ -51,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
     }
     private void createListView(String directory){
         //Get home directory values
-        testing = new TestZone(context, activity);
-        folderContent = testing.getFolderContent(directory);
+        dbReader = new DatabaseReader(context);
+        folderContent = dbReader.getFolderContent(directory);
         list.clear();
         list.addAll(folderContent.getNames());
 
@@ -132,14 +133,14 @@ public class MainActivity extends AppCompatActivity {
                     testing.getFromDB();
                     break;
                 case R.id.add_folder:
-                    testing.createNewFolder();
+                    dbAdder.createNewFolder();
                     break;
                 case R.id.delete_all:
                     testing.deleteFoldersTable();
                     new FolderContent();
                     break;
                 case R.id.get_contents:
-                    folderContent = testing.getFolderContent("Home");
+                    folderContent = dbReader.getFolderContent("Home");
 
                     for (int x = 0; x < folderContent.getNames().size(); x++) {
                         System.out.println("Folder: " + folderContent.getNames().get(x) + "\tType: " + folderContent.getTypes().get(x));
