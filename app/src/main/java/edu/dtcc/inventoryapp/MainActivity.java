@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         updateContexts();
         switch (button.getId()) {
             case R.id.addButton: customAlertDialog(); break;
+            case R.id.create_folder: createFolderDialogBox();
         }
     }
 
@@ -97,47 +98,6 @@ public class MainActivity extends AppCompatActivity {
 
         myDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
 
-        create_folder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                //todo add dialog box popup for adding a new folder
-
-                myFolderDialog = new Dialog(activity);
-                myFolderDialog.setContentView(R.layout.create_folder_dialog);
-                myFolderDialog.setTitle("My Custom Dialog Box Test");
-
-                folderName = (EditText) myFolderDialog.findViewById(R.id.folder_input);
-                submit = (Button) myFolderDialog.findViewById(R.id.submit_folder_Btn);
-                cancelBtn = (Button) myFolderDialog.findViewById(R.id.cancelBtn);
-
-                folderName.setEnabled(true);
-                submit.setEnabled(true);
-                cancelBtn.setEnabled(true);
-
-                myFolderDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
-
-                // dismiss original dialog box and display new
-                myDialog.dismiss();
-                myFolderDialog.show();
-
-                // on click for submit button
-                submit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
-
-                // on click for cancel button
-                cancelBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        myFolderDialog.cancel();
-                    }
-                });
-
-            }
-        });
 
         create_file.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,6 +115,42 @@ public class MainActivity extends AppCompatActivity {
         });
 
         myDialog.show();
+    }
+
+    private void createFolderDialogBox(){
+        myFolderDialog = new Dialog(activity);
+        myFolderDialog.setContentView(R.layout.create_folder_dialog);
+        myFolderDialog.setTitle("My Custom Dialog Box Test");
+
+        folderName = (EditText) myFolderDialog.findViewById(R.id.folder_input);
+        submit = (Button) myFolderDialog.findViewById(R.id.submit_folder_Btn);
+        cancelBtn = (Button) myFolderDialog.findViewById(R.id.cancelBtn);
+
+        folderName.setEnabled(true);
+        submit.setEnabled(true);
+        cancelBtn.setEnabled(true);
+
+        myFolderDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
+
+        // dismiss original dialog box and display new
+        myDialog.dismiss();
+        myFolderDialog.show();
+
+        // on click for submit button
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        // on click for cancel button
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myFolderDialog.cancel();
+            }
+        });
     }
 
     // button handler
