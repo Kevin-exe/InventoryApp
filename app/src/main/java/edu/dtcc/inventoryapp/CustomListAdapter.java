@@ -66,8 +66,10 @@ public class CustomListAdapter extends BaseAdapter implements ListAdapter
 
         // set the list item image
         ImageView listItemImage = (ImageView)view.findViewById(R.id.folderImage);
-        if (zone.getFolderContent("Home").get(1).get(position).equals("Item"))
+        if (zone.getFolderContent("Home").get(1).get(position).equals("Folder"))
             listItemImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.folder));
+        else
+            listItemImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.page));
 
         // onClick listener for edit button
         Button editButton = (Button) view.findViewById(R.id.folder_button);
