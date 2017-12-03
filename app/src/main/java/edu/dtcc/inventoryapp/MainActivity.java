@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                     testing.createNewFolder();
                     break;
                 case R.id.delete_all:
-                    testing.deleteDB();
+                    testing.deleteFoldersTable();
                     new FolderContent();
                     break;
                 case R.id.get_contents:

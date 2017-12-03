@@ -31,8 +31,8 @@ public class TestZone {
         }
     }
 
-    // method that deletes the entire database
-    public void deleteDB(){
+    // method that deletes and re-creates the Folders table
+    public void deleteFoldersTable(){
         db = inventoryData.getWritableDatabase();
         db.execSQL(Inventory.SQL_DELETE_FOLDERS);
         db.execSQL(Inventory.SQL_CREATE_FOLDERS);
@@ -40,7 +40,7 @@ public class TestZone {
         db.close();
     }
 
-    // method that creates a new Folder list item
+    // method that creates a new Folder in the DB
     public void createNewFolder(){
         db = inventoryData.getWritableDatabase();
         folderData = new FolderData();
@@ -55,7 +55,7 @@ public class TestZone {
         db.close();
     }
 
-    // method that sets folder names
+    //Testing. Method collects folder name & parent from db_testing
     private void getValues(FolderData folderData){
         EditText folderName = (EditText) activity.findViewById(R.id.folder_name);
         EditText folderParent = (EditText) activity.findViewById(R.id.folder_parent);
@@ -64,7 +64,7 @@ public class TestZone {
         folderData.setFolderParent(folderParent.getText().toString());
     }
 
-    // method that creates a new File list item
+    // method that creates a file in the Files Table and the same file in the FileData table
     public void createNewFile() {
         db = inventoryData.getWritableDatabase();
         fileData = new FileData();
