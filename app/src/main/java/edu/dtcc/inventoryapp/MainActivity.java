@@ -49,10 +49,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.addButton: customAlertDialog(); break;
         }
     }
-    private void createListView(){
+    private void createListView(String directory){
         //Get home directory values
         testing = new TestZone(context, activity);
-        folderContent = testing.getFolderContent("Home");
+        folderContent = testing.getFolderContent(directory);
+        list.clear();
         list.addAll(folderContent.getNames());
 
         // initialize custom adapter
@@ -156,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (button.getId()) {
             case R.id.title_button: setContentView(R.layout.activity_main);
-                                    createListView(); break;
+                                    createListView("Home"); break;
             case R.id.db_testing: setContentView(R.layout.sql_testing); break;
         }
 
@@ -167,8 +168,7 @@ public class MainActivity extends AppCompatActivity {
     public void toMainMenu(View button) {
         setContentView(R.layout.activity_main);
         updateContexts();
-        list.clear();
-        createListView();
+        createListView("Home");
     }
 
     // method that creates toast messages with the passed string

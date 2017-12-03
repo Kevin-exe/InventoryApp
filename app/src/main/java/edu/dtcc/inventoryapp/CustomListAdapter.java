@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Created by Connor on 12/2/17.
  */
 
-public class CustomListAdapter extends BaseAdapter implements ListAdapter
+class CustomListAdapter extends BaseAdapter implements ListAdapter
 {
     private ArrayList<String> list;
 
@@ -31,7 +31,7 @@ public class CustomListAdapter extends BaseAdapter implements ListAdapter
     private int itemCount;
 
     // constructor that accepts an ArrayList of strings and Context
-    public CustomListAdapter(ArrayList<String> list, FolderContent folderContent, Context context, Activity activity) {
+    CustomListAdapter(ArrayList<String> list, FolderContent folderContent, Context context, Activity activity) {
         this.list = list;
         this.folderContent = folderContent;
         this.context = context;
