@@ -21,15 +21,7 @@ class FolderContent {
         return names;
     }
 
-    public void setNames(ArrayList<String> names) {
-        this.names.addAll(names);
-    }
-
     ArrayList<String> getTypes() {
         return types;
-    }
-
-    public void setTypes(ArrayList<String> types) {
-        this.types.addAll(types);
     }
 }

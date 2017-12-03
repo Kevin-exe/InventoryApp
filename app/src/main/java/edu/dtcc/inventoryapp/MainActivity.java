@@ -23,9 +23,11 @@ public class MainActivity extends AppCompatActivity {
     Dialog myFolderDialog;
     Button create_folder, create_file, close, submit, cancelBtn;
     FolderContent folderContent;
+    FolderData folderData;
+    FileData fileData;
     DatabaseAdder dbAdder;
     DatabaseReader dbReader;
-    EditText folderName;
+    EditText newFolderName;
 
     // ArrayList of strings to hold the list items
     ArrayList<String> list = new ArrayList<>();
@@ -40,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.title_screen);
+
+        folderData = new FolderData();
+        folderData.setParent("Home");
     }
 
     private void updateContexts(){
@@ -74,8 +79,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-                position++;
                 int count = list.size();
+
+                if (folderContent.getTypes().get(position).equals("Folder")) {
+                    String newDirectory = list.get(position);
+                    folderData = new FolderData();
+                    folderData.setParent(newDirectory);
+                    createListView(newDirectory);
+                }
+                else
+                    System.out.println("Item clicked is not a folder");
 
                 theToasting(position + " out of " + count);
             }
@@ -122,11 +135,11 @@ public class MainActivity extends AppCompatActivity {
         myFolderDialog.setContentView(R.layout.create_folder_dialog);
         myFolderDialog.setTitle("My Custom Dialog Box Test");
 
-        folderName = (EditText) myFolderDialog.findViewById(R.id.folder_input);
+        newFolderName = (EditText) myFolderDialog.findViewById(R.id.folder_input);
         submit = (Button) myFolderDialog.findViewById(R.id.submit_folder_Btn);
         cancelBtn = (Button) myFolderDialog.findViewById(R.id.cancelBtn);
 
-        folderName.setEnabled(true);
+        newFolderName.setEnabled(true);
         submit.setEnabled(true);
         cancelBtn.setEnabled(true);
 
@@ -140,7 +153,16 @@ public class MainActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                try {
+                    String parent = folderData.getParent();
+                    DatabaseAdder dbAdder = new DatabaseAdder(context);
+                    folderData.setName(newFolderName.getText().toString());
+                    dbAdder.createNewFolder(folderData);
+                    myFolderDialog.cancel();
+                    createListView(parent);
+                } catch (Exception e){
+                    theToasting("Field cannot be empty");
+                }
             }
         });
 
@@ -168,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
                     testing.getFromDB();
                     break;
                 case R.id.add_folder:
-                    dbAdder.createNewFolder();
                     break;
                 case R.id.delete_all:
                     testing.deleteFoldersTable();
@@ -205,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         updateContexts();
         createListView("Home");
+        folderData.setParent("Home");
     }
 
     // method that creates toast messages with the passed string

@@ -121,11 +121,11 @@ public class TestZone {
 
         /*try {
             FolderData.folderID = (rowDetails.get(0));
-            FolderData.folderName = (rowDetails.get(1));
+            FolderData.newFolderName = (rowDetails.get(1));
             FolderData.folderParent = (rowDetails.get(2));
 
             System.out.println("ID: " + FolderData.folderID);
-            System.out.println("Name: " + FolderData.folderName);
+            System.out.println("Name: " + FolderData.newFolderName);
             System.out.println("Parent: " + FolderData.folderParent);
         } catch (Exception e){
             System.out.println("getCursor error: " + e.getMessage());

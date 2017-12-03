@@ -10,18 +10,19 @@
 
     <TextView
         android:id="@+id/folder_input_text"
-        android:layout_width="match_parent"
+        android:layout_width="209dp"
         android:layout_height="26dp"
         android:layout_margin="10px"
         android:layout_marginTop="8dp"
         android:text="Folder Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="8dp" />
 
     <EditText
         android:id="@+id/folder_input"
-        android:layout_width="match_parent"
+        android:layout_width="209dp"
         android:layout_height="wrap_content"
         android:layout_margin="10px"
         android:ems="10"
@@ -29,32 +30,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/folder_input_text" />
+        app:layout_constraintTop_toBottomOf="@+id/folder_input_text"
+        tools:layout_editor_absoluteX="8dp" />
 
     <Button
         android:id="@+id/submit_folder_Btn"
-        android:layout_width="match_parent"
+        android:layout_width="209dp"
         android:layout_height="wrap_content"
         android:layout_margin="10px"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:onClick="sqlOption"
         android:text="SUBMIT"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/folder_input" />
+        app:layout_constraintTop_toBottomOf="@+id/folder_input"
+        tools:layout_editor_absoluteX="8dp" />
 
     <Button
         android:id="@+id/cancelBtn"
-        android:layout_width="match_parent"
+        android:layout_width="209dp"
         android:layout_height="wrap_content"
         android:layout_margin="10px"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="CANCEL"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/submit_folder_Btn" />
+        app:layout_constraintTop_toBottomOf="@+id/submit_folder_Btn"
+        tools:layout_editor_absoluteX="8dp" />
 </android.support.constraint.ConstraintLayout>

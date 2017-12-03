@@ -41,8 +41,11 @@ public class FolderData {
         return name;
     }
 
-    public void setName(String folderName) {
-        this.name = folderName;
+    public void setName(String folderName){
+        if (folderName.equals(""))
+            throw new IllegalArgumentException();
+        else
+            this.name = folderName;
     }
 
     public String getParent() {

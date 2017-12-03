@@ -15,9 +15,8 @@ class DatabaseAdder extends TestZone {
     }
 
     // method that creates a new Folder in the DB
-    public void createNewFolder() {
+    public void createNewFolder(FolderData folderData) {
         db = inventoryData.getWritableDatabase();
-        folderData = new FolderData();
 
         values = new ContentValues();
         values.put(Inventory.Folders.FOLDER_NAME_COLUMN, folderData.getName());
