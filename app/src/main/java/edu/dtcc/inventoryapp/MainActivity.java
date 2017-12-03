@@ -8,6 +8,7 @@ import android.view.View;
 import android.app.Dialog;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -19,10 +20,12 @@ public class MainActivity extends AppCompatActivity {
     Context context;
     Activity activity;
     Dialog myDialog;
-    Button create_folder, create_file, close;
+    Dialog myFolderDialog;
+    Button create_folder, create_file, close, submit, cancelBtn;
     FolderContent folderContent;
     DatabaseAdder dbAdder;
     DatabaseReader dbReader;
+    EditText folderName;
 
     // ArrayList of strings to hold the list items
     ArrayList<String> list = new ArrayList<>();
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.addButton: customAlertDialog(); break;
         }
     }
+
     private void createListView(String directory){
         //Get home directory values
         dbReader = new DatabaseReader(context);
@@ -97,6 +101,41 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 //todo add dialog box popup for adding a new folder
+
+                myFolderDialog = new Dialog(activity);
+                myFolderDialog.setContentView(R.layout.create_folder_dialog);
+                myFolderDialog.setTitle("My Custom Dialog Box Test");
+
+                folderName = (EditText) myFolderDialog.findViewById(R.id.folder_input);
+                submit = (Button) myFolderDialog.findViewById(R.id.submit_folder_Btn);
+                cancelBtn = (Button) myFolderDialog.findViewById(R.id.cancelBtn);
+
+                folderName.setEnabled(true);
+                submit.setEnabled(true);
+                cancelBtn.setEnabled(true);
+
+                myFolderDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
+
+                // dismiss original dialog box and display new
+                myDialog.dismiss();
+                myFolderDialog.show();
+
+                // on click for submit button
+                submit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+
+                // on click for cancel button
+                cancelBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        myFolderDialog.cancel();
+                    }
+                });
+
             }
         });
 
