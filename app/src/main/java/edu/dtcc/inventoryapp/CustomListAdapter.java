@@ -15,6 +15,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+/**
+ * Created by Connor on 12/2/17.
+ */
+
 public class CustomListAdapter extends BaseAdapter implements ListAdapter
 {
     private ArrayList<String> list;

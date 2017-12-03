@@ -30,6 +30,8 @@ public class TestZone {
             System.out.println("TestZone Error: " + e.getMessage());
         }
     }
+
+    // method that deletes the entire database
     public void deleteDB(){
         db = inventoryData.getWritableDatabase();
         db.execSQL(Inventory.SQL_DELETE_FOLDERS);
@@ -38,6 +40,7 @@ public class TestZone {
         db.close();
     }
 
+    // method that creates a new Folder list item
     public void createNewFolder(){
         db = inventoryData.getWritableDatabase();
         folderData = new FolderData();
@@ -51,6 +54,8 @@ public class TestZone {
         db.insert(Inventory.Folders.TABLE_NAME, null, values);
         db.close();
     }
+
+    // method that sets folder names
     private void getValues(FolderData folderData){
         EditText folderName = (EditText) activity.findViewById(R.id.folder_name);
         EditText folderParent = (EditText) activity.findViewById(R.id.folder_parent);
@@ -59,6 +64,7 @@ public class TestZone {
         folderData.setFolderParent(folderParent.getText().toString());
     }
 
+    // method that creates a new File list item
     public void createNewFile() {
         db = inventoryData.getWritableDatabase();
         fileData = new FileData();
@@ -124,22 +130,22 @@ public class TestZone {
         return folderContent;
     }
 
-        //method used for collecting single-column returns
-        private void collectCursorData(Cursor cursor, ArrayList<String> cursorData) {
-            if (cursor.moveToFirst()) {
-                do {
-                    cursorData.add(cursor.getString(0));
-                } while (cursor.moveToNext());
-            }
+    //method used for collecting single-column returns
+    private void collectCursorData(Cursor cursor, ArrayList<String> cursorData) {
+        if (cursor.moveToFirst()) {
+            do {
+                cursorData.add(cursor.getString(0));
+            } while (cursor.moveToNext());
         }
-        private void fillContentType(String type, int size, ArrayList<String> contentType){
-            for(int x = 0; x < size; x++){
-                contentType.add(type);
-            }
+    }
+    private void fillContentType(String type, int size, ArrayList<String> contentType){
+        for(int x = 0; x < size; x++){
+            contentType.add(type);
         }
-        private String createContentSQLselect(String column, String table, String whereColumn, String argument, String orderBy) {
-            return String.format("SELECT %1s FROM %2s WHERE %3s = '%4s' ORDER BY %5s", column, table, whereColumn, argument, orderBy);
-        }
+    }
+    private String createContentSQLselect(String column, String table, String whereColumn, String argument, String orderBy) {
+        return String.format("SELECT %1s FROM %2s WHERE %3s = '%4s' ORDER BY %5s", column, table, whereColumn, argument, orderBy);
+    }
 
     public void getFileContentFromDB(String fileName) {
         db = inventoryData.getReadableDatabase();
@@ -193,6 +199,7 @@ public class TestZone {
 
     }
 
+    // method that deletes a file from a folder
     public void deleteFile(String fileName){
         db = inventoryData.getWritableDatabase();
 

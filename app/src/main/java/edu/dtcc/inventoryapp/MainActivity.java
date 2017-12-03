@@ -29,14 +29,13 @@ public class MainActivity extends AppCompatActivity {
     // custom list adapter that will handle the list
     CustomListAdapter adapter;
 
+    // ListView for displaying the list
     ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.title_screen);
-
-
     }
 
     private void updateContexts(){
@@ -117,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         myDialog.show();
     }
 
+    // button handler
     public void sqlOption(View button) {
         updateContexts();
 
@@ -150,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // method that loads the DB testing screen
     public void nextMenu(View button){
         updateContexts();
 
@@ -162,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         updateContexts();
     }
 
-
+    // method that loads the main menu screen
     public void toMainMenu(View button) {
         setContentView(R.layout.activity_main);
         updateContexts();
@@ -170,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
         createListView();
     }
 
+    // method that creates toast messages with the passed string
     private void theToasting(String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
