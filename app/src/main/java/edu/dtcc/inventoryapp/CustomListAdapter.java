@@ -21,13 +21,15 @@ public class CustomListAdapter extends BaseAdapter implements ListAdapter
 
     private Context context;
     private Activity activity;
+    private FolderContent folderContent;
 
     // counter variable for the number of list items
     private int itemCount;
 
     // constructor that accepts an ArrayList of strings and Context
-    public CustomListAdapter(ArrayList<String> list, Context context, Activity activity) {
+    public CustomListAdapter(ArrayList<String> list, FolderContent folderContent, Context context, Activity activity) {
         this.list = list;
+        this.folderContent = folderContent;
         this.context = context;
         this.activity = activity;
         itemCount = 0;
@@ -62,11 +64,11 @@ public class CustomListAdapter extends BaseAdapter implements ListAdapter
         TextView listItemText = (TextView) view.findViewById(R.id.folderText);
         listItemText.setText(list.get(position));
 
-        TestZone zone = new TestZone(context, activity);
 
         // set the list item image
         ImageView listItemImage = (ImageView)view.findViewById(R.id.folderImage);
-        if (zone.getFolderContent("Home").get(1).get(position).equals("Folder"))
+
+        if (folderContent.getTypes().get(position).equals("Folder"))
             listItemImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.folder));
         else
             listItemImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.page));

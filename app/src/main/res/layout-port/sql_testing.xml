@@ -65,17 +65,17 @@
         android:text="Delete All" />
 
     <Button
+        android:id="@+id/get_contents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="sqlOption"
+        android:text="Get Home Contents" />
+
+    <Button
         android:onClick="toMainMenu"
         android:id="@+id/sql_test_TO_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Main Menu" />
-
-    <Button
-        android:onClick="sqlOption"
-        android:id="@+id/get_contents"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Get Home Contents" />
 
 </LinearLayout>

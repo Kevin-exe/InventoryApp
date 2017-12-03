@@ -20,10 +20,8 @@ public class MainActivity extends AppCompatActivity {
     Activity activity;
     Dialog myDialog;
     Button create_folder, create_file, close;
-
-    //Temporary testing ArrayLists for folderContent
-    ArrayList<String> folderContentNames = new ArrayList<>();
-    ArrayList<String> folderContentTypes = new ArrayList<>();
+    FolderContent folderContent;
+    TestZone testing;
 
     // ArrayList of strings to hold the list items
     ArrayList<String> list = new ArrayList<>();
@@ -53,8 +51,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void createListView(){
+        //Get home directory values
+        testing = new TestZone(context, activity);
+        folderContent = testing.getFolderContent("Home");
+        list.addAll(folderContent.getNames());
+
         // initialize custom adapter
-        adapter = new CustomListAdapter(list, context, activity);
+        adapter = new CustomListAdapter(list, folderContent, context, activity);
 
         // initialize the list and set the adapter
         listView = (ListView) findViewById(R.id.list);
@@ -92,15 +95,14 @@ public class MainActivity extends AppCompatActivity {
         create_folder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-                adapter.addItems();
+                //todo add dialog box popup for adding a new folder
             }
         });
 
-        //temporary bug. Change to file creation later instead of delete.
         create_file.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view){
+                //todo change menu for file creation input. likely needs the directory name for creation
                 adapter.deleteItems(0);
             }
         });
@@ -119,8 +121,6 @@ public class MainActivity extends AppCompatActivity {
         updateContexts();
 
         TestZone testing = new TestZone(context, activity);
-        ArrayList<ArrayList<String>> folderContent = new ArrayList<>();
-
 
         try {
             switch (button.getId()) {
@@ -135,14 +135,13 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.delete_all:
                     testing.deleteDB();
+                    new FolderContent();
                     break;
                 case R.id.get_contents:
-                    folderContent.addAll(testing.getFolderContent("Home"));
-                    folderContentNames.addAll(folderContent.get(0));
-                    folderContentTypes.addAll(folderContent.get(1));
+                    folderContent = testing.getFolderContent("Home");
 
-                    for (int x = 0; x < folderContentNames.size(); x++) {
-                        System.out.println("Folder: " + folderContentNames.get(x) + "\tType: " + folderContentTypes.get(x));
+                    for (int x = 0; x < folderContent.getNames().size(); x++) {
+                        System.out.println("Folder: " + folderContent.getNames().get(x) + "\tType: " + folderContent.getTypes().get(x));
                     }
                     break;
             }
@@ -159,12 +158,15 @@ public class MainActivity extends AppCompatActivity {
                                     createListView(); break;
             case R.id.db_testing: setContentView(R.layout.sql_testing); break;
         }
+
+        updateContexts();
     }
 
 
     public void toMainMenu(View button) {
         setContentView(R.layout.activity_main);
         updateContexts();
+        adapter.notifyDataSetChanged();
     }
 
     private void theToasting(String message) {

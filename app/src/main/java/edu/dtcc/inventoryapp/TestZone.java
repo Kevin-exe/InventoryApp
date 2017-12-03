@@ -80,41 +80,44 @@ public class TestZone {
         db.close();
     }
 
-    public ArrayList<ArrayList<String>> getFolderContent(String parentDirectory) {
+    public FolderContent getFolderContent(String parentDirectory) {
         int folderQuantity;
         int fileQuantity;
         Cursor cursor;
+        FolderContent folderContent;
         db = inventoryData.getReadableDatabase();
 
-        ArrayList<ArrayList<String>> folderContent = new ArrayList<>();
-        folderContent.add(new ArrayList<String>());
-        folderContent.add(new ArrayList<String>());
+        ArrayList<String> namesContainedInFolder = new ArrayList<>();
+        ArrayList<String> theTypeOfEachName = new ArrayList<>();
 
         selection = createContentSQLselect(
                 Inventory.Folders.FOLDER_NAME_COLUMN,
                 Inventory.Folders.TABLE_NAME,
                 Inventory.Folders.FOLDER_PARENT_COLUMN,
-                parentDirectory
+                parentDirectory,
+                Inventory.Folders.FOLDER_NAME_COLUMN
         );
         cursor = db.rawQuery(selection, null);
 
-        collectCursorData(cursor, folderContent.get(0));
-        folderQuantity = folderContent.get(0).size();
-        fillContentType("Folder", folderQuantity, folderContent.get(1));
+        collectCursorData(cursor, namesContainedInFolder);
+        folderQuantity = namesContainedInFolder.size();
+        fillContentType("Folder", folderQuantity, theTypeOfEachName);
 
         //Disabled until Interface for file Creation is created
         /*selection = createContentSQLselect(
                 Inventory.Files.FILE_NAME_COLUMN,
                 Inventory.Files.TABLE_NAME,
                 Inventory.Files.FILE_PARENT_COLUMN,
-                parentDirectory
+                parentDirectory,
+                Inventory.Files.FILE_NAME_COLUMN
         );
         cursor = db.rawQuery(selection, null);
 
-        collectCursorData(cursor, folderContent.get(0));
-        fileQuantity = folderContent.get(0).size() - folderQuantity;
-        fillContentType("File", fileQuantity, folderContent.get(1));*/
+        collectCursorData(cursor, namesContainedInFolder);
+        fileQuantity = namesContainedInFolder.size() - folderQuantity;
+        fillContentType("File", fileQuantity, theTypeOfEachName);*/
 
+        folderContent = new FolderContent(namesContainedInFolder, theTypeOfEachName);
         db.close();
         cursor.close();
 
@@ -134,8 +137,8 @@ public class TestZone {
                 contentType.add(type);
             }
         }
-        private String createContentSQLselect(String column, String table, String whereColumn, String argument) {
-            return String.format("SELECT %1s FROM %2s WHERE %3s = '%4s'", column, table, whereColumn, argument);
+        private String createContentSQLselect(String column, String table, String whereColumn, String argument, String orderBy) {
+            return String.format("SELECT %1s FROM %2s WHERE %3s = '%4s' ORDER BY %5s", column, table, whereColumn, argument, orderBy);
         }
 
     public void getFileContentFromDB(String fileName) {
