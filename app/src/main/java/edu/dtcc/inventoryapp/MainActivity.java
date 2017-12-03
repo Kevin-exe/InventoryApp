@@ -166,7 +166,8 @@ public class MainActivity extends AppCompatActivity {
     public void toMainMenu(View button) {
         setContentView(R.layout.activity_main);
         updateContexts();
-        adapter.notifyDataSetChanged();
+        list.clear();
+        createListView();
     }
 
     private void theToasting(String message) {
