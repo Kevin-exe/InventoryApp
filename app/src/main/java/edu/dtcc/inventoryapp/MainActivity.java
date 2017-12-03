@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                 position++;
-                int count = adapter.getItemCount();
+                int count = list.size();
 
                 theToasting(position + " out of " + count);
             }
