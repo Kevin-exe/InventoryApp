@@ -78,7 +78,7 @@ class CustomListAdapter extends BaseAdapter implements ListAdapter
             listItemImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.page));
 
         // onClick listener for edit button
-        Button editButton = (Button) view.findViewById(R.id.folder_button);
+        ImageView editButton = (ImageView) view.findViewById(R.id.folder_button);
         editButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
