@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
         folderData.setParent(directory);
         createListView(directory);
         getSupportActionBar().setTitle(directory);
-
     }
 
     private void openFileContents(String file) {
