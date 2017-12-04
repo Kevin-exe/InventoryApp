@@ -14,8 +14,14 @@
     </style>
 
     <style name="BlueTheme" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textColor">#E0E0FF</item>
-        <item name="android:background">#001650</item>
+        <item name="android:textColor">#EEFFFF</item>
+        <item name="android:background">#002070</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="DarkBlueTheme" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">#EEFFFF</item>
+        <item name="android:background">#001640</item>
         <item name="android:textSize">14sp</item>
     </style>
 
