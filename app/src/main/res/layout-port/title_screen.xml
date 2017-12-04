@@ -14,7 +14,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="154dp"
-        android:text="Inventory\n Application"
+        android:text="INVENTORY\nAPPLICATION!!!"
         android:textAlignment="center"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
