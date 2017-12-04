@@ -71,8 +71,9 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                 String selectedItem = list.get(position);
+                boolean isFolder = folderContent.getTypes().get(position).equals("Folder");
 
-                if (folderContent.getTypes().get(position).equals("Folder"))
+                if (isFolder)
                     openFolderContents(selectedItem);
                 else
                     openFileContents(selectedItem);
@@ -80,10 +81,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void openFolderContents(String newDirectory) {
+    private void openFolderContents(String directory) {
         folderData = new FolderData();
-        folderData.setParent(newDirectory);
-        createListView(newDirectory);
+        folderData.setParent(directory);
+        createListView(directory);
     }
 
     private void openFileContents(String file) {
