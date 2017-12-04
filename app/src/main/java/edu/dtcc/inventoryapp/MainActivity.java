@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
                     openFolderContents(selectedItem);
                 else
                     openFileContents(selectedItem);
-
             }
         });
     }
