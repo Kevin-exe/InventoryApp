@@ -67,7 +67,6 @@ class CustomListAdapter extends BaseAdapter implements ListAdapter
         TextView listItemText = (TextView) view.findViewById(R.id.folderText);
         listItemText.setText(list.get(position));
 
-
         // set the list item image
         ImageView listItemImage = (ImageView)view.findViewById(R.id.folderImage);
 
