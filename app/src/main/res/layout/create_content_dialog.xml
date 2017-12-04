@@ -17,7 +17,7 @@
         android:layout_marginTop="4dp"
         android:onClick="createContentBoxButtons"
         android:text="ADD FOLDER"
-        android:textSize="22sp"
+        android:textSize="14sp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,7 +31,7 @@
         android:layout_marginTop="8dp"
         android:onClick="createContentBoxButtons"
         android:text="ADD FILE"
-        android:textSize="22sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/close"
         app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -49,7 +49,7 @@
         android:layout_marginStart="8dp"
         android:onClick="createContentBoxButtons"
         android:text="CLOSE"
-        android:textSize="22sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
