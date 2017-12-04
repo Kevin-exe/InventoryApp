@@ -38,8 +38,8 @@ public final class Inventory {
     public static final String SQL_CREATE_FOLDERS =
         "CREATE TABLE " + Folders.TABLE_NAME + " (" +
         Folders._ID + " INTEGER PRIMARY KEY," +
-        Folders.FOLDER_NAME_COLUMN + " TEXT," +
-        Folders.FOLDER_PARENT_COLUMN + " TEXT)";
+        Folders.FOLDER_NAME_COLUMN + " VARCHAR," +
+        Folders.FOLDER_PARENT_COLUMN + " VARCHAR)";
 
 
     public static final String SQL_CREATE_FILES =

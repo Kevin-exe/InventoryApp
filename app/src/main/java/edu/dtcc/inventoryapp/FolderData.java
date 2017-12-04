@@ -43,6 +43,8 @@ public class FolderData {
 
     public void setName(String folderName){
         if (folderName.equals(""))
+            throw new NoSuchFieldError();
+        else if (folderName.length() < 4)
             throw new IllegalArgumentException();
         else
             this.name = folderName;

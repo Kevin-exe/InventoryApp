@@ -56,8 +56,7 @@ public class MainActivity extends AppCompatActivity {
         //Get home directory values
         dbReader = new DatabaseReader(context);
         folderContent = dbReader.getFolderContent(directory);
-        list.clear();
-        list.addAll(folderContent.getNames());
+        list = (ArrayList<String>)folderContent.getNames().clone();
 
         // initialize custom adapter
         adapter = new CustomListAdapter(list, folderContent, context, activity);
@@ -74,10 +73,16 @@ public class MainActivity extends AppCompatActivity {
                 String selectedItem = list.get(position);
                 boolean isFolder = folderContent.getTypes().get(position).equals("Folder");
 
+
+
                 if (isFolder)
                     openFolderContents(selectedItem);
                 else
                     openFileContents(selectedItem);
+
+                for (String contents : list) {
+                    System.out.println("contents " + contents);
+                }
             }
         });
     }
@@ -129,8 +134,10 @@ public class MainActivity extends AppCompatActivity {
             dbAdder.createNewFolderInDB(folderData);
             dialogBox.endDialogBox();
             createListView(parent);
-        } catch (Exception e){
+        } catch (NoSuchFieldError e){
             theToasting("Field cannot be empty");
+        } catch (IllegalArgumentException e){
+            theToasting("Minimum character length is 4");
         }
     }
 
