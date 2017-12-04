@@ -14,13 +14,12 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-
 public class MainActivity extends AppCompatActivity {
     Context context;
     Activity activity;
     Dialog myDialog;
     Dialog myFolderDialog;
+    DialogBox dialogBox;
     Button create_folder, create_file, close, submit, cancelBtn;
     FolderContent folderContent;
     FolderData folderData;
@@ -52,14 +51,6 @@ public class MainActivity extends AppCompatActivity {
         activity = MainActivity.this;
     }
 
-    public void displayDialog(View button) {
-        updateContexts();
-        switch (button.getId()) {
-            case R.id.addButton: customAlertDialog(); break;
-            case R.id.create_folder: createFolderDialogBox();
-        }
-    }
-
     private void createListView(String directory){
         //Get home directory values
         dbReader = new DatabaseReader(context);
@@ -79,103 +70,69 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-                int count = list.size();
+                String selectedItem = list.get(position);
 
-                if (folderContent.getTypes().get(position).equals("Folder")) {
-                    String newDirectory = list.get(position);
-                    folderData = new FolderData();
-                    folderData.setParent(newDirectory);
-                    createListView(newDirectory);
-                }
+                if (folderContent.getTypes().get(position).equals("Folder"))
+                    openFolderContents(selectedItem);
                 else
-                    System.out.println("Item clicked is not a folder");
+                    openFileContents(selectedItem);
 
-                theToasting(position + " out of " + count);
             }
         });
     }
 
-    public void customAlertDialog()
-    {
-        myDialog = new Dialog(activity);
-        myDialog.setContentView(R.layout.customdialog);
-        myDialog.setTitle("My Custom Dialog Box");
+    private void openFolderContents(String newDirectory) {
+        folderData = new FolderData();
+        folderData.setParent(newDirectory);
+        createListView(newDirectory);
+    }
 
-        create_folder = (Button)myDialog.findViewById(R.id.create_folder);
-        create_file = (Button)myDialog.findViewById(R.id.create_file);
-        close = (Button)myDialog.findViewById(R.id.close);
+    private void openFileContents(String file) {
 
-        create_folder.setEnabled(true);
-        create_file.setEnabled(true);
-        close.setEnabled(true);
+    }
 
-        myDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
+    private void newDialogBox(int layout){
+        dialogBox = new DialogBox(activity);
+        dialogBox.initializeDialogElements(layout);
+    }
 
-
-        create_file.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
+    public void createContentBoxButtons(View button){
+        switch (button.getId()) {
+            case R.id.create_new_content:
+                newDialogBox(R.layout.create_content_dialog);
+                break;
+            case R.id.create_folder:
+                dialogBox.endDialogBox();
+                newDialogBox(R.layout.create_folder_dialog);
+                break;
+            case R.id.create_file:
                 //todo change menu for file creation input. likely needs the directory name for creation
-                adapter.deleteItems(0);
-            }
-        });
-
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialog.cancel();
-            }
-        });
-
-        myDialog.show();
+                break;
+            case R.id.close: dialogBox.endDialogBox(); break;
+        }
     }
 
-    private void createFolderDialogBox(){
-        myFolderDialog = new Dialog(activity);
-        myFolderDialog.setContentView(R.layout.create_folder_dialog);
-        myFolderDialog.setTitle("My Custom Dialog Box Test");
-
-        newFolderName = (EditText) myFolderDialog.findViewById(R.id.folder_input);
-        submit = (Button) myFolderDialog.findViewById(R.id.submit_folder_Btn);
-        cancelBtn = (Button) myFolderDialog.findViewById(R.id.cancelBtn);
-
-        newFolderName.setEnabled(true);
-        submit.setEnabled(true);
-        cancelBtn.setEnabled(true);
-
-        myFolderDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
-
-        // dismiss original dialog box and display new
-        myDialog.dismiss();
-        myFolderDialog.show();
-
-        // on click for submit button
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    String parent = folderData.getParent();
-                    DatabaseAdder dbAdder = new DatabaseAdder(context);
-                    folderData.setName(newFolderName.getText().toString());
-                    dbAdder.createNewFolder(folderData);
-                    myFolderDialog.cancel();
-                    createListView(parent);
-                } catch (Exception e){
-                    theToasting("Field cannot be empty");
-                }
-            }
-        });
-
-        // on click for cancel button
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myFolderDialog.cancel();
-            }
-        });
+    public void createFolderBoxButtons(View button) {
+        switch (button.getId()) {
+            case R.id.submit_folder_Btn: createNewFolder(); break;
+            case R.id.cancelBtn: dialogBox.endDialogBox(); break;
+        }
     }
 
-    // button handler
+    private void createNewFolder(){
+        try {
+            String parent = folderData.getParent();
+            DatabaseAdder dbAdder = new DatabaseAdder(context);
+            dialogBox.collectFolderName(folderData);
+            dbAdder.createNewFolderInDB(folderData);
+            dialogBox.endDialogBox();
+            createListView(parent);
+        } catch (Exception e){
+            theToasting("Field cannot be empty");
+        }
+    }
+
+    //TESTING. Remove later. Buttons for the db_testing menu
     public void sqlOption(View button) {
         updateContexts();
 
@@ -208,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // method that loads the DB testing screen
+    //TESTING. Remove later method that loads the DB testing screen
     public void nextMenu(View button){
         updateContexts();
 

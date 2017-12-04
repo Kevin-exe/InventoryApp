@@ -24,7 +24,7 @@
         android:textSize="18sp" />
 
     <ImageView
-        android:id="@+id/folder_button"
+        android:id="@+id/edit_folder_button"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:src="@drawable/process" />

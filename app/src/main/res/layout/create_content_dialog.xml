@@ -9,7 +9,7 @@
 
 
     <Button
-        android:onClick="displayDialog"
+        android:onClick="createContentBoxButtons"
         android:id="@+id/create_folder"
         android:layout_width="175dp"
         android:layout_height="100dp"
@@ -23,6 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:onClick="createContentBoxButtons"
         android:id="@+id/create_file"
         android:layout_width="175dp"
         android:layout_height="100dp"
@@ -40,6 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/create_folder" />
 
     <Button
+        android:onClick="createContentBoxButtons"
         android:id="@+id/close"
         android:layout_width="175dp"
         android:layout_height="100dp"

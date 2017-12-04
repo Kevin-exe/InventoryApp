@@ -34,12 +34,12 @@
         tools:layout_editor_absoluteX="8dp" />
 
     <Button
+        android:onClick="createFolderBoxButtons"
         android:id="@+id/submit_folder_Btn"
         android:layout_width="209dp"
         android:layout_height="wrap_content"
         android:layout_margin="10px"
         android:layout_marginTop="8dp"
-        android:onClick="sqlOption"
         android:text="SUBMIT"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,6 +47,7 @@
         tools:layout_editor_absoluteX="8dp" />
 
     <Button
+        android:onClick="createFolderBoxButtons"
         android:id="@+id/cancelBtn"
         android:layout_width="209dp"
         android:layout_height="wrap_content"

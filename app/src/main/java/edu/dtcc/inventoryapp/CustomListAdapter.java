@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -78,7 +77,7 @@ class CustomListAdapter extends BaseAdapter implements ListAdapter
             listItemImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.page));
 
         // onClick listener for edit button
-        ImageView editButton = (ImageView) view.findViewById(R.id.folder_button);
+        ImageView editButton = (ImageView) view.findViewById(R.id.edit_folder_button);
         editButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

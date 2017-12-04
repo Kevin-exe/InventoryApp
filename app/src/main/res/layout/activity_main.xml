@@ -9,8 +9,8 @@
     tools:layout_editor_absoluteX="0dp">
 
     <ImageButton
-        android:onClick="displayDialog"
-        android:id="@+id/addButton"
+        android:onClick="createContentBoxButtons"
+        android:id="@+id/create_new_content"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_centerInParent="true"
@@ -62,7 +62,7 @@
         android:onClick="nextMenu"
         android:text="DB_TESTING"
         android:textSize="16sp"
-        app:layout_constraintLeft_toRightOf="@+id/addButton"
+        app:layout_constraintLeft_toRightOf="@+id/create_new_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
