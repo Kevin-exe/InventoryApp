@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingRight = "8dp"
-    android:paddingTop = "8dp">
+    android:paddingTop = "8dp"
+    style="@style/BlueTheme">
 
     <ImageView
         android:id="@+id/folderImage"
@@ -14,13 +15,13 @@
         app:srcCompat="@android:drawable/sym_contact_card" />
 
     <TextView
+        style="@style/BlueTheme"
         android:id="@+id/folderText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="23dp"
         android:layout_weight="0.59"
         android:text="Folder"
-        android:textColor="#000000"
         android:textSize="18sp" />
 
     <ImageView

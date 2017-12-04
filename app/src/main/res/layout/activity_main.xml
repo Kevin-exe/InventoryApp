@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context="edu.dtcc.inventoryapp.MainActivity"
     tools:layout_editor_absoluteY="81dp"
-    tools:layout_editor_absoluteX="0dp">
+    tools:layout_editor_absoluteX="0dp"
+    style="@style/BlueTheme">
 
     <ImageButton
         android:onClick="createContentBoxButtons"
@@ -88,7 +89,7 @@
 
         <ListView
             android:id="@+id/list"
-            style="@style/Testing"
+            style="@style/BlueTheme"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
 
