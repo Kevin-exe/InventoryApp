@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         folderData = new FolderData();
         folderData.setParent("Home");
+        getSupportActionBar().setTitle("Home");
     }
 
     private void updateContexts(){
@@ -85,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
         folderData = new FolderData();
         folderData.setParent(directory);
         createListView(directory);
+        getSupportActionBar().setTitle(directory);
+
     }
 
     private void openFileContents(String file) {
@@ -184,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
         updateContexts();
         createListView("Home");
         folderData.setParent("Home");
+        getSupportActionBar().setTitle("Home");
     }
 
     // method that creates toast messages with the passed string
