@@ -86,6 +86,7 @@ class CustomListAdapter extends BaseAdapter implements ListAdapter
             @Override
             public void onClick(View v) {
                 dialogBox.newDialogBox(R.layout.editdialog);
+                dialogBox.setDialogBox(dialogBox);
                 currentIndex = position;
             }
         });
