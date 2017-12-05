@@ -14,13 +14,23 @@ import static android.support.v7.widget.ListPopupWindow.WRAP_CONTENT;
 public class DialogBox {
     Activity activity;
     Dialog dialog;
+    DialogBox dialogBox;
 
     public DialogBox(Activity activity) {
         this.activity = activity;
         dialog = new Dialog(activity);
+
     }
     public void newDialogBox(int layout){
         initializeDialogElements(layout);
+    }
+
+    public DialogBox getDialogBox() {
+        return dialogBox;
+    }
+
+    public void setDialogBox(DialogBox dialogBox) {
+        this.dialogBox = dialogBox;
     }
 
     private void initializeDialogElements(int layout) {
