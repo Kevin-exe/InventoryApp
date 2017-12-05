@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     public void settingsBoxButtons(View button) {
         getItemAndType();
         dbDeleter = new DatabaseDeleter(context);
-        dialogBox = new DialogBox(activity);
+        dialogBox = dialogBox.getDialogBox();
 
         if (itemType.equals("Folder")) {
             switch (button.getId()) {
