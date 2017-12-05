@@ -76,8 +76,6 @@ public class MainActivity extends AppCompatActivity {
                 String selectedItem = list.get(position);
                 boolean isFolder = folderContent.getTypes().get(position).equals("Folder");
 
-
-
                 if (isFolder)
                     openFolderContents(selectedItem);
                 else
@@ -112,8 +110,8 @@ public class MainActivity extends AppCompatActivity {
             updateRoot(rootDirectory);
             updateListView();
         }
-
     }
+
     private void updateRoot(String rootDirectory){
         folderData.setParent(rootDirectory);
     }

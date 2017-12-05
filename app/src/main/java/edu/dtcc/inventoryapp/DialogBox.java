@@ -25,10 +25,6 @@ public class DialogBox {
         initializeDialogElements(layout);
     }
 
-    public DialogBox getDialogBox() {
-        return dialogBox;
-    }
-
     public void setDialogBox(DialogBox dialogBox) {
         this.dialogBox = dialogBox;
     }
