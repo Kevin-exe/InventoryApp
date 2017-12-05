@@ -39,7 +39,7 @@ class DatabaseReader extends TestZone {
         fillContentType("Folder", folderQuantity, theTypeOfEachName);
 
         //Disabled until Interface for file Creation is created
-        /*selection = createContentSQLselect(
+        selection = createContentSQLselect(
                 Inventory.Files.FILE_NAME_COLUMN,
                 Inventory.Files.TABLE_NAME,
                 Inventory.Files.FILE_PARENT_COLUMN,
@@ -50,7 +50,7 @@ class DatabaseReader extends TestZone {
 
         collectCursorData(cursor, namesContainedInFolder);
         fileQuantity = namesContainedInFolder.size() - folderQuantity;
-        fillContentType("File", fileQuantity, theTypeOfEachName);*/
+        fillContentType("File", fileQuantity, theTypeOfEachName);
 
         folderContent = new FolderContent(namesContainedInFolder, theTypeOfEachName);
         db.close();

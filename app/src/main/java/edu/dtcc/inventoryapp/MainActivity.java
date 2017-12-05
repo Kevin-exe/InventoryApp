@@ -113,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
                 newDialogBox(R.layout.create_folder_dialog);
                 break;
             case R.id.create_file:
-                //todo change menu for file creation input. likely needs the directory name for creation
+                setContentView(R.layout.create_file);
+                dialogBox.endDialogBox();
                 break;
             case R.id.close: dialogBox.endDialogBox(); break;
         }
@@ -121,8 +122,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void createFolderBoxButtons(View button) {
         switch (button.getId()) {
-            case R.id.submit_folder_Btn: createNewFolder(); break;
+            case R.id.submit_new_file_btn: createNewFolder(); break;
             case R.id.cancelBtn: dialogBox.endDialogBox(); break;
+        }
+    }
+
+    public void createFileMenu(View button) {
+        String currentParent = folderData.getParent();
+        switch (button.getId()) {
+            case R.id.submit_new_file_btn: new NewFile(context, activity, currentParent);
+            case R.id.cancel_file_btn: setContentView(R.layout.activity_main);
+                createListView(currentParent);
         }
     }
 

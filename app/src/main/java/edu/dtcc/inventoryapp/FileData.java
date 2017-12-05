@@ -14,6 +14,14 @@ public class FileData {
 
     public FileData() {}
 
+    public FileData(String name, String parent, String description, String value, String location) {
+        this.name = name;
+        this.parent = parent;
+        this.description = description;
+        this.value = value;
+        this.location = location;
+    }
+
     public String getID() {
         return ID;
     }
