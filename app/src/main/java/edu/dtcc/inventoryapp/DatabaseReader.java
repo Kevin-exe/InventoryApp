@@ -10,6 +10,7 @@ import java.util.ArrayList;
  */
 
 class DatabaseReader extends TestZone {
+    ArrayList<String> buffer = new ArrayList<>();
 
     public DatabaseReader(Context context){
         super(context);
@@ -25,7 +26,8 @@ class DatabaseReader extends TestZone {
         ArrayList<String> namesContainedInFolder = new ArrayList<>();
         ArrayList<String> theTypeOfEachName = new ArrayList<>();
 
-        selection = createContentSQLselect(
+        //Collecting folder data
+        selection = createSQLselectStatement(
                 Inventory.Folders.FOLDER_NAME_COLUMN,
                 Inventory.Folders.TABLE_NAME,
                 Inventory.Folders.FOLDER_PARENT_COLUMN,
@@ -38,8 +40,8 @@ class DatabaseReader extends TestZone {
         folderQuantity = namesContainedInFolder.size();
         fillContentType("Folder", folderQuantity, theTypeOfEachName);
 
-        //Disabled until Interface for file Creation is created
-        selection = createContentSQLselect(
+        //Collecting file data
+        selection = createSQLselectStatement(
                 Inventory.Files.FILE_NAME_COLUMN,
                 Inventory.Files.TABLE_NAME,
                 Inventory.Files.FILE_PARENT_COLUMN,
@@ -72,7 +74,7 @@ class DatabaseReader extends TestZone {
             contentType.add(type);
         }
     }
-    private String createContentSQLselect(String column, String table, String whereColumn, String argument, String orderBy) {
+    private String createSQLselectStatement(String column, String table, String whereColumn, String argument, String orderBy) {
         return String.format("SELECT %1s FROM %2s WHERE %3s = '%4s' ORDER BY %5s", column, table, whereColumn, argument, orderBy);
     }
 
@@ -111,5 +113,23 @@ class DatabaseReader extends TestZone {
         db.close();
 
         return fileData;
+    }
+
+    public String findRootDirectory(String childDirectory){
+        db = inventoryData.getReadableDatabase();
+
+        selection = createSQLselectStatement(
+                Inventory.Folders.FOLDER_PARENT_COLUMN,
+                Inventory.Folders.TABLE_NAME,
+                Inventory.Folders.FOLDER_NAME_COLUMN,
+                childDirectory,
+                Inventory.Folders.FOLDER_NAME_COLUMN);
+
+        Cursor cursor = db.rawQuery(selection, null);
+
+        collectCursorData(cursor, buffer);
+
+        return buffer.get(0);
+
     }
 }

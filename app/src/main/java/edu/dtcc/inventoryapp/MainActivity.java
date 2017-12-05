@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     DatabaseAdder dbAdder;
     DatabaseReader dbReader;
     EditText newFolderName;
+    String rootDirectory;
+    String currentDirectory;
 
     // ArrayList of strings to hold the list items
     ArrayList<String> list = new ArrayList<>();
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         folderData = new FolderData();
         folderData.setParent("Home");
-        getSupportActionBar().setTitle("Home");
+        updateActionBar();
     }
 
     private void updateContexts(){
@@ -89,13 +91,34 @@ public class MainActivity extends AppCompatActivity {
 
     private void openFolderContents(String directory) {
         folderData = new FolderData();
-        folderData.setParent(directory);
-        createListView(directory);
-        getSupportActionBar().setTitle(directory);
+        updateRoot(directory);
+        updateListView();
     }
 
     private void openFileContents(String file) {
 
+    }
+    private void updateListView(){
+        createListView(folderData.getParent());
+        updateActionBar();
+    }
+
+    private void getRootDirectory(){
+        if (!(folderData.getParent().equals("Home"))) {
+            setContentView(R.layout.activity_main);
+            currentDirectory = folderData.getParent();
+            rootDirectory = dbReader.findRootDirectory(currentDirectory);
+            updateRoot(rootDirectory);
+            updateListView();
+        }
+
+    }
+    private void updateRoot(String rootDirectory){
+        folderData.setParent(rootDirectory);
+    }
+
+    private void updateActionBar() {
+        getSupportActionBar().setTitle(folderData.getParent());
     }
 
     private void newDialogBox(int layout){
@@ -185,13 +208,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //TESTING. Remove later method that loads the DB testing screen
-    public void nextMenu(View button){
+    public void changeMenu(View button){
         updateContexts();
 
         switch (button.getId()) {
             case R.id.title_button: setContentView(R.layout.activity_main);
                                     createListView("Home"); break;
             case R.id.db_testing: setContentView(R.layout.sql_testing); break;
+            case R.id.back_button:
+                getRootDirectory();
+                break;
         }
 
         updateContexts();
@@ -202,8 +228,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         updateContexts();
         createListView("Home");
-        folderData.setParent("Home");
-        getSupportActionBar().setTitle("Home");
+        updateRoot("Home");
+        updateActionBar();
     }
 
     // method that creates toast messages with the passed string
