@@ -144,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.deleteBtn:
                     dbDeleter.deleteFolder(item);
                     updateListView();
+                    dialogBox.endDialogBox();
                     break;
                 case R.id.closeBtn:
                     dialogBox.endDialogBox();
@@ -156,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.deleteBtn:
                     dbDeleter.deleteFile(item);
                     updateListView();
+                    dialogBox.endDialogBox();
                     break;
                 case R.id.closeBtn:
                     dialogBox.endDialogBox();
