@@ -19,8 +19,11 @@ public class DialogBox {
         this.activity = activity;
         dialog = new Dialog(activity);
     }
+    public void newDialogBox(int layout){
+        initializeDialogElements(layout);
+    }
 
-    public void initializeDialogElements(int layout) {
+    private void initializeDialogElements(int layout) {
         dialog.setContentView(layout);
         dialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
         dialog.show();

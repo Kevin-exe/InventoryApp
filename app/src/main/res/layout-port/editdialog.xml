@@ -9,6 +9,7 @@
 
 
     <Button
+        android:onClick="settingsBoxButtons"
         android:id="@+id/editBtn"
         android:layout_width="209dp"
         android:layout_height="wrap_content"
@@ -23,6 +24,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:onClick="settingsBoxButtons"
         android:id="@+id/deleteBtn"
         android:layout_width="209dp"
         android:layout_height="wrap_content"
@@ -37,6 +39,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editBtn" />
 
     <Button
+        android:onClick="settingsBoxButtons"
         android:id="@+id/closeBtn"
         android:layout_width="209dp"
         android:layout_height="wrap_content"

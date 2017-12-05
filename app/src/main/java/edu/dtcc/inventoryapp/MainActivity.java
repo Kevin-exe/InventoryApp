@@ -5,9 +5,7 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.app.Dialog;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -17,18 +15,20 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     Context context;
     Activity activity;
-    Dialog myDialog;
-    Dialog myFolderDialog;
     DialogBox dialogBox;
-    Button create_folder, create_file, close, submit, cancelBtn;
     FolderContent folderContent;
     FolderData folderData;
     FileData fileData;
     DatabaseAdder dbAdder;
     DatabaseReader dbReader;
+    DatabaseUpdater dbUpdater;
+    DatabaseDeleter dbDeleter;
     EditText newFolderName;
     String rootDirectory;
     String currentDirectory;
+    String itemType;
+    String item;
+    int indexOfItem;
 
     // ArrayList of strings to hold the list items
     ArrayList<String> list = new ArrayList<>();
@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.title_screen);
 
         folderData = new FolderData();
+//        dialogBox = new DialogBox(activity);
         folderData.setParent("Home");
         updateActionBar();
     }
@@ -120,10 +121,42 @@ public class MainActivity extends AppCompatActivity {
     private void updateActionBar() {
         getSupportActionBar().setTitle(folderData.getParent());
     }
+    private void getItemAndType(){
+        indexOfItem = adapter.getCurrentIndex();
+        itemType = folderContent.getTypes().get(indexOfItem);
+        item = folderContent.getNames().get(indexOfItem);
+    }
 
     private void newDialogBox(int layout){
         dialogBox = new DialogBox(activity);
-        dialogBox.initializeDialogElements(layout);
+        dialogBox.newDialogBox(layout);
+    }
+
+    public void settingsBoxButtons(View button) {
+        getItemAndType();
+        dbDeleter = new DatabaseDeleter(context);
+
+        if (itemType.equals("Folder")) {
+            switch (button.getId()) {
+                case R.id.editBtn:
+                    break;
+                case R.id.deleteBtn: dbDeleter.deleteFolder(item);
+                    break;
+                case R.id.closeBtn:
+                    dialogBox.endDialogBox();
+                    break;
+            }
+        } else {
+            switch (button.getId()) {
+                case R.id.editBtn:
+                    break;
+                case R.id.deleteBtn:
+                    break;
+                case R.id.closeBtn:
+                    dialogBox.endDialogBox();
+                    break;
+            }
+        }
     }
 
     public void createContentBoxButtons(View button){

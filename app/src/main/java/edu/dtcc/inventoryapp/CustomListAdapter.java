@@ -25,6 +25,8 @@ class CustomListAdapter extends BaseAdapter implements ListAdapter
     private Context context;
     private Activity activity;
     private FolderContent folderContent;
+    private DialogBox dialogBox;
+    private int currentIndex;
 
     // counter variable for the number of list items
     private int itemCount;
@@ -37,6 +39,7 @@ class CustomListAdapter extends BaseAdapter implements ListAdapter
         this.activity = activity;
         itemCount = 0;
     }
+    public int getCurrentIndex(){return currentIndex;}
 
     @Override
     public int getCount() {return list.size();}
@@ -58,6 +61,8 @@ class CustomListAdapter extends BaseAdapter implements ListAdapter
     public View getView(final int position, View convertView, ViewGroup parent)
     {
         View view = convertView;
+        dialogBox = new DialogBox(activity);
+
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.list_item_folder, null);
@@ -80,28 +85,11 @@ class CustomListAdapter extends BaseAdapter implements ListAdapter
         editButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Button is clicked", Toast.LENGTH_SHORT).show();
-                notifyDataSetChanged();
+                dialogBox.newDialogBox(R.layout.editdialog);
+                currentIndex = position;
             }
         });
 
         return view;
-    }
-
-    // method that adds list elements
-    public void addItems()
-    {
-        list.add("Item " + ++itemCount);
-        notifyDataSetChanged();
-    }
-
-    // method that deletes list elements
-    public void deleteItems(int pos) {
-        if (list.size() != 0)
-        {
-            list.remove(pos);
-            itemCount--;
-        }
-        notifyDataSetChanged();
     }
 }

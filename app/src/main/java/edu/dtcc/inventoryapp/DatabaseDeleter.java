@@ -27,12 +27,14 @@ class DatabaseDeleter extends TestZone {
         db = inventoryData.getWritableDatabase();
         dbReader = new DatabaseReader(context);
         folderContent = new FolderContent();
+        int numberOfFolders;
+        int numberOfFiles;
 
         int counter = 1;
 
-        selection = Inventory.Folders.FOLDER_NAME_COLUMN + " LIKE ?";
-        String fileSelection = Inventory.Files.FILE_NAME_COLUMN + "LIKE ?";
-        String fileDataSelection = Inventory.FileData.FILE_NAME_COLUMN + "LIKE ?";
+        selection = Inventory.Folders.FOLDER_NAME_COLUMN + " IN ?";
+        String fileSelection = Inventory.Files.FILE_NAME_COLUMN + "IN ?";
+        String fileDataSelection = Inventory.FileData.FILE_NAME_COLUMN + "IN ?";
         /*String[] args = {folderName};
 
         db.delete(Inventory.Folders.TABLE_NAME, selection, args);
@@ -59,9 +61,11 @@ class DatabaseDeleter extends TestZone {
                 }
                 counter++;
             }
-        } catch (ArrayIndexOutOfBoundsException e){
-            String[] foldersToDeleteArray = foldersToDelete.toArray(new String[foldersToDelete.size()]);
-            String[] filesToDeleteArray = filesToDelete.toArray(new String[filesToDelete.size()]);
+        } catch (IndexOutOfBoundsException e){
+            numberOfFolders = foldersToDelete.size();
+            numberOfFiles = filesToDelete.size();
+            String[] foldersToDeleteArray = foldersToDelete.toArray(new String[numberOfFolders]);
+            String[] filesToDeleteArray = filesToDelete.toArray(new String[numberOfFiles]);
             db.delete(Inventory.Folders.TABLE_NAME, selection, foldersToDeleteArray);
             db.delete(Inventory.Files.TABLE_NAME, fileSelection, filesToDeleteArray);
             db.delete(Inventory.FileData.TABLE_NAME, fileDataSelection, filesToDeleteArray);
