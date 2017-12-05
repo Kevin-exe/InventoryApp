@@ -57,6 +57,11 @@ class CustomListAdapter extends BaseAdapter implements ListAdapter
 
     public int getItemCount() {return itemCount;}
 
+    public DialogBox getDialogBox()
+    {
+        return dialogBox;
+    }
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent)
     {
