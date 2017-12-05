@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     public void settingsBoxButtons(View button) {
         getItemAndType();
         dbDeleter = new DatabaseDeleter(context);
-        dialogBox = dialogBox.getDialogBox();
+        dialogBox = adapter.getDialogBox();
 
         if (itemType.equals("Folder")) {
             switch (button.getId()) {
@@ -144,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.deleteBtn:
                     dbDeleter.deleteFolder(item);
                     updateListView();
+                    dialogBox.endDialogBox();
                     break;
                 case R.id.closeBtn:
                     dialogBox.endDialogBox();
@@ -156,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.deleteBtn:
                     dbDeleter.deleteFile(item);
                     updateListView();
+                    dialogBox.endDialogBox();
                     break;
                 case R.id.closeBtn:
                     dialogBox.endDialogBox();
