@@ -140,7 +140,9 @@ public class MainActivity extends AppCompatActivity {
             switch (button.getId()) {
                 case R.id.editBtn:
                     break;
-                case R.id.deleteBtn: dbDeleter.deleteFolder(item);
+                case R.id.deleteBtn:
+                    dbDeleter.deleteFolder(item);
+                    updateListView();
                     break;
                 case R.id.closeBtn:
                     dialogBox.endDialogBox();
@@ -151,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.editBtn:
                     break;
                 case R.id.deleteBtn:
+                    dbDeleter.deleteFile(item);
+                    updateListView();
                     break;
                 case R.id.closeBtn:
                     dialogBox.endDialogBox();
