@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="81dp">
+    tools:layout_editor_absoluteY="81dp"
+    style="@style/BlueTheme">
 
     <ImageButton
         android:onClick="toMainMenu"
@@ -50,6 +51,7 @@
         android:layout_marginEnd="8dp" />
 
     <LinearLayout
+        style="@style/BlueTheme"
         android:layout_width="368dp"
         android:layout_height="258dp"
         android:orientation="vertical"
@@ -63,6 +65,7 @@
         android:layout_marginTop="8dp">
 
         <TextView
+            style="@style/BlueTheme"
             android:id="@+id/file_title_text"
             android:layout_width="209dp"
             android:layout_height="26dp"
@@ -75,6 +78,7 @@
             tools:layout_editor_absoluteY="45dp" />
 
         <TextView
+            style="@style/BlueTheme"
             android:id="@+id/file_display"
             android:layout_width="209dp"
             android:layout_height="35dp"
@@ -87,6 +91,7 @@
             tools:layout_editor_absoluteY="158dp" />
 
         <TextView
+            style="@style/BlueTheme"
             android:id="@+id/location_title_text"
             android:layout_width="209dp"
             android:layout_height="26dp"
@@ -99,6 +104,7 @@
             tools:layout_editor_absoluteY="127dp" />
 
         <TextView
+            style="@style/BlueTheme"
             android:id="@+id/location_display"
             android:layout_width="209dp"
             android:layout_height="35dp"
@@ -111,6 +117,7 @@
             tools:layout_editor_absoluteY="76dp" />
 
         <TextView
+            style="@style/BlueTheme"
             android:id="@+id/value_title_text"
             android:layout_width="209dp"
             android:layout_height="26dp"
@@ -123,6 +130,7 @@
             tools:layout_editor_absoluteY="127dp" />
 
         <TextView
+            style="@style/BlueTheme"
             android:id="@+id/value_display"
             android:layout_width="209dp"
             android:layout_height="35dp"
@@ -135,6 +143,7 @@
             tools:layout_editor_absoluteY="158dp" />
 
         <TextView
+            style="@style/BlueTheme"
             android:id="@+id/description_title_text"
             android:layout_width="209dp"
             android:layout_height="26dp"
@@ -147,6 +156,7 @@
             tools:layout_editor_absoluteY="208dp" />
 
         <TextView
+            style="@style/BlueTheme"
             android:id="@+id/description_display"
             android:layout_width="209dp"
             android:layout_height="35dp"
