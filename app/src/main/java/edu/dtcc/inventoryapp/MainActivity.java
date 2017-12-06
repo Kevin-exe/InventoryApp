@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     FolderContent folderContent;
     FolderData folderData;
     FileData fileData;
+    FileMenu fileMenu;
     DatabaseAdder dbAdder;
     DatabaseReader dbReader;
     DatabaseUpdater dbUpdater;
@@ -78,10 +79,14 @@ public class MainActivity extends AppCompatActivity {
                 String selectedItem = list.get(position);
                 boolean isFolder = folderContent.getTypes().get(position).equals("Folder");
 
-                if (isFolder)
-                    openFolderContents(selectedItem);
-                else
-                    openFileContents(selectedItem);
+                try {
+                    if (isFolder)
+                        openFolderContents(selectedItem);
+                    else
+                        openFileContents(selectedItem);
+                } catch (Exception e){
+                    System.out.println(e.getMessage());
+                }
 
                 for (String contents : list) {
                     System.out.println("contents " + contents);
@@ -97,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openFileContents(String file) {
+        setContentView(R.layout.file_display);
+        fileMenu = new FileMenu(context, activity);
+        fileMenu.displayFileData(file);
 
     }
     private void updateListView(){
@@ -192,8 +200,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void createFileMenu(View button) {
         String currentParent = folderData.getParent();
+        fileMenu = new FileMenu(context, activity);
         switch (button.getId()) {
-            case R.id.submit_new_file_btn: new NewFile(context, activity, currentParent);
+            case R.id.submit_new_file_btn: fileMenu.createNewFile(currentParent);
             case R.id.cancel_file_btn: setContentView(R.layout.activity_main);
                 createListView(currentParent);
         }

@@ -93,7 +93,7 @@ public class DatabaseReader extends TestZone {
         String[] selectionArgs = {fileName};
 
         Cursor cursor = db.query(
-                Inventory.Folders.TABLE_NAME,
+                Inventory.FileData.TABLE_NAME,
                 projection,
                 selection,
                 selectionArgs,
