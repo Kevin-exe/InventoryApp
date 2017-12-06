@@ -112,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
             updateRoot(rootDirectory);
             updateListView();
         }
-
     }
+
     private void updateRoot(String rootDirectory){
         folderData.setParent(rootDirectory);
     }
