@@ -148,6 +148,8 @@ public class MainActivity extends AppCompatActivity {
         if (itemType.equals("Folder")) {
             switch (button.getId()) {
                 case R.id.editBtn:
+                    dialogBox.endDialogBox();
+                    newDialogBox(R.layout.rename_folder_dialog);
                     break;
                 case R.id.deleteBtn:
                     dbDeleter.deleteFolder(item);
@@ -194,6 +196,13 @@ public class MainActivity extends AppCompatActivity {
     public void createFolderBoxButtons(View button) {
         switch (button.getId()) {
             case R.id.submit_new_file_btn: createNewFolder(); break;
+            case R.id.cancelBtn: dialogBox.endDialogBox(); break;
+        }
+    }
+
+    public void renameFolderBoxButtons(View button) {
+        switch (button.getId()) {
+            case R.id.submit_new_file_btn: theToasting("FOLDER RENAMED");
             case R.id.cancelBtn: dialogBox.endDialogBox(); break;
         }
     }
