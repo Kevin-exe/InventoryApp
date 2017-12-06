@@ -2,7 +2,6 @@ package edu.dtcc.inventoryapp;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.widget.Button;
 import android.widget.EditText;
 
 import static android.support.v7.widget.ListPopupWindow.WRAP_CONTENT;
@@ -39,7 +38,13 @@ public class DialogBox {
         dialog.cancel();
     }
     public void collectFolderName(FolderData folderData){
-        EditText newFolderName = (EditText) dialog.findViewById(R.id.folder_input);
+        EditText newFolderName = (EditText) dialog.findViewById(R.id.new_folder_name);
         folderData.setName(newFolderName.getText().toString());
     }
+
+    public void collectNewFolderName(FolderData folderData){
+        EditText newFolderName = (EditText) dialog.findViewById(R.id.updated_folder_name);
+        folderData.setNewName(newFolderName.getText().toString());
+    }
+
 }
