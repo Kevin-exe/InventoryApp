@@ -39,7 +39,7 @@ class CustomListAdapter extends BaseAdapter implements ListAdapter
         this.activity = activity;
         itemCount = 0;
     }
-    public int getCurrentIndex(){return currentIndex;}
+    int getCurrentIndex(){return currentIndex;}
 
     @Override
     public int getCount() {return list.size();}
@@ -57,7 +57,7 @@ class CustomListAdapter extends BaseAdapter implements ListAdapter
 
     public int getItemCount() {return itemCount;}
 
-    public DialogBox getDialogBox()
+    DialogBox getDialogBox()
     {
         return dialogBox;
     }

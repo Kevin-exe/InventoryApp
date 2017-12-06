@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by Kevin on 12/3/17.
  */
 
-class DatabaseReader extends TestZone {
+public class DatabaseReader extends TestZone {
     ArrayList<String> buffer = new ArrayList<>();
 
     public DatabaseReader(Context context){

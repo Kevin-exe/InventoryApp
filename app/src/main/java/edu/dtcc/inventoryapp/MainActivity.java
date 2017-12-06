@@ -42,11 +42,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.title_screen);
+        setContentView(R.layout.activity_main);
+
+        updateContexts();
 
         folderData = new FolderData();
-//        dialogBox = new DialogBox(activity);
         folderData.setParent("Home");
+        createListView("Home");
         updateActionBar();
     }
 
@@ -75,8 +77,6 @@ public class MainActivity extends AppCompatActivity {
 
                 String selectedItem = list.get(position);
                 boolean isFolder = folderContent.getTypes().get(position).equals("Folder");
-
-
 
                 if (isFolder)
                     openFolderContents(selectedItem);
@@ -252,8 +252,6 @@ public class MainActivity extends AppCompatActivity {
         updateContexts();
 
         switch (button.getId()) {
-            case R.id.title_button: setContentView(R.layout.activity_main);
-                                    createListView("Home"); break;
             case R.id.db_testing: setContentView(R.layout.sql_testing); break;
             case R.id.back_button:
                 getRootDirectory();

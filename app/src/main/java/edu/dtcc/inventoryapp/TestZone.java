@@ -43,15 +43,6 @@ public class TestZone {
     }
 
 
-    //Testing. Method collects folder name & parent from db_testing
-    private void getValues(FolderData folderData){
-        EditText folderName = (EditText) activity.findViewById(R.id.folder_name);
-        EditText folderParent = (EditText) activity.findViewById(R.id.folder_parent);
-
-        folderData.setName(folderName.getText().toString());
-        folderData.setParent(folderParent.getText().toString());
-    }
-
     //Testing
     public void selectAll(){
         db = inventoryData.getReadableDatabase();
@@ -118,19 +109,6 @@ public class TestZone {
                 System.out.println("Test select: " + Name);
             }
         }
-
-        /*try {
-            FolderData.folderID = (rowDetails.get(0));
-            FolderData.newFolderName = (rowDetails.get(1));
-            FolderData.folderParent = (rowDetails.get(2));
-
-            System.out.println("ID: " + FolderData.folderID);
-            System.out.println("Name: " + FolderData.newFolderName);
-            System.out.println("Parent: " + FolderData.folderParent);
-        } catch (Exception e){
-            System.out.println("getCursor error: " + e.getMessage());
-        }*/
-
 
         cursor.close();
         db.close();

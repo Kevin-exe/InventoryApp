@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by Kevin on 12/3/17.
  */
 
-class DatabaseDeleter extends TestZone {
+public class DatabaseDeleter extends TestZone {
     private boolean filesInFolder = true;
     private DatabaseReader dbReader;
     private Context context;
@@ -21,12 +21,12 @@ class DatabaseDeleter extends TestZone {
     private ArrayList<String> contentBuffer = new ArrayList<>();
     private ArrayList<String> typesBuffer = new ArrayList<>();
 
-    DatabaseDeleter(Context context){
+    public DatabaseDeleter(Context context){
         super(context);
         this.context = context;
     }
 
-    void deleteFolder(String folderName){
+    public void deleteFolder(String folderName){
         db = inventoryData.getWritableDatabase();
         dbReader = new DatabaseReader(context);
         folderContent = new FolderContent();
@@ -103,8 +103,8 @@ class DatabaseDeleter extends TestZone {
             stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length());
         }
 
-    // method that deletes a file from the FileData table and Files table
-    void deleteFile(String fileName){
+    // method that deletes a file from Files and FileData tables
+    public void deleteFile(String fileName){
         db = inventoryData.getWritableDatabase();
 
         selection = Inventory.Files.FILE_NAME_COLUMN + " = ?";
