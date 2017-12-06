@@ -18,14 +18,14 @@ class DatabaseUpdater extends TestZone {
 
         ContentValues values = new ContentValues();
         values.put(Inventory.Folders.FOLDER_NAME_COLUMN, folderData.getNewName());
-        selection = Inventory.Folders.FOLDER_NAME_COLUMN + " LIKE ?";
+        selection = Inventory.Folders.FOLDER_NAME_COLUMN + " = ?";
         String[] args = {folderData.getOldName()};
 
         db.update(Inventory.Folders.TABLE_NAME, values, selection, args);
 
         values = new ContentValues();
         values.put(Inventory.Folders.FOLDER_PARENT_COLUMN, folderData.getNewName());
-        selection = Inventory.Folders.FOLDER_PARENT_COLUMN + " LIKE ?";
+        selection = Inventory.Folders.FOLDER_PARENT_COLUMN + " = ?";
 
         db.update(Inventory.Folders.TABLE_NAME, values, selection, args);
 

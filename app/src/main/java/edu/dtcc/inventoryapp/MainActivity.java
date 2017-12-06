@@ -140,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
     public void settingsBoxButtons(View button) {
         getItemAndType();
         dbDeleter = new DatabaseDeleter(context);
+        dbUpdater = new DatabaseUpdater(context);
         dialogBox = adapter.getDialogBox();
 
         if (itemType.equals("Folder")) {
@@ -147,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.editBtn:
                     dialogBox.endDialogBox();
                     newDialogBox(R.layout.rename_folder_dialog);
+
                     break;
                 case R.id.deleteBtn:
                     dbDeleter.deleteFolder(item);
@@ -198,8 +200,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void renameFolderBoxButtons(View button) {
+        updateContexts();
         switch (button.getId()) {
-            case R.id.submit_new_file_btn: theToasting("FOLDER RENAMED");
+            case R.id.submit_new_file_btn:
+                try {
+                    dialogBox.collectNewFolderName(folderData);
+                    folderData.setOldName(item);
+                    dbUpdater.updateFolderName(folderData);
+                    updateListView();
+                } catch (Exception e){
+                    System.out.println(e.getMessage());
+                }
             case R.id.cancelBtn: dialogBox.endDialogBox(); break;
         }
     }
@@ -267,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
         updateContexts();
 
         switch (button.getId()) {
-            case R.id.db_testing: setContentView(R.layout.sql_testing); break;
+//            case R.id.db_testing: setContentView(R.layout.sql_testing); break;
             case R.id.back_button:
                 getRootDirectory();
                 break;
