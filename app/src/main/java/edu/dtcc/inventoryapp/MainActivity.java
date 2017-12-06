@@ -79,14 +79,11 @@ public class MainActivity extends AppCompatActivity {
                 String selectedItem = list.get(position);
                 boolean isFolder = folderContent.getTypes().get(position).equals("Folder");
 
-                try {
                     if (isFolder)
                         openFolderContents(selectedItem);
                     else
                         openFileContents(selectedItem);
-                } catch (Exception e){
-                    System.out.println(e.getMessage());
-                }
+
 
                 for (String contents : list) {
                     System.out.println("contents " + contents);

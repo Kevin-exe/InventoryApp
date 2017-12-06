@@ -23,7 +23,7 @@ class FileMenu {
         this.context = context;
 
     }
-    public void createNewFile(String parent){
+    void createNewFile(String parent){
         dbAdder = new DatabaseAdder(context);
         this.parent = parent;
         collectNewFileData();
@@ -36,7 +36,6 @@ class FileMenu {
         EditText value = (EditText) activity.findViewById(R.id.value_input);
         EditText description = (EditText) activity.findViewById(R.id.description_input);
 
-
         fileData = new FileData(getString(fileName), parent, getString(description), getString(value), getString(location));
     }
 
@@ -48,7 +47,7 @@ class FileMenu {
         dbAdder.createNewFile(fileData);
     }
 
-    public void displayFileData(String fileName){
+    void displayFileData(String fileName){
         TextView name = (TextView) activity.findViewById(R.id.file_display);
         TextView location = (TextView) activity.findViewById(R.id.location_display);
         TextView value = (TextView) activity.findViewById(R.id.value_display);
