@@ -1,6 +1,5 @@
 package edu.dtcc.inventoryapp;
 
-import android.content.ContentValues;
 import android.content.Context;
 
 import java.util.ArrayList;
@@ -9,54 +8,42 @@ import java.util.ArrayList;
  * Created by Kevin on 12/3/17.
  */
 
-public class DatabaseDeleter extends TestZone {
+class DatabaseDeleter extends DatabaseObjects {
     private boolean filesInFolder = true;
     private DatabaseReader dbReader;
     private Context context;
-    private FolderContent folderContent;
+    private FolderContents folderContents;
     private StringBuilder folders = new StringBuilder();
     private StringBuilder files = new StringBuilder();
-    private ArrayList<String> foldersToDelete = new ArrayList<>();
-    private ArrayList<String> filesToDelete = new ArrayList<>();
-    private ArrayList<String> contentBuffer = new ArrayList<>();
-    private ArrayList<String> typesBuffer = new ArrayList<>();
+    private ArrayList<String> foldersToDelete = new ArrayList<>(1);
+    private ArrayList<String> filesToDelete = new ArrayList<>(1);
+    private ArrayList<String> contentBuffer = new ArrayList<>(1);
+    private ArrayList<String> typesBuffer = new ArrayList<>(1);
 
-    public DatabaseDeleter(Context context){
+    DatabaseDeleter(Context context){
         super(context);
         this.context = context;
     }
 
-    public void deleteFolder(String folderName){
+    void deleteFolder(String folderName){
         db = inventoryData.getWritableDatabase();
         dbReader = new DatabaseReader(context);
-        folderContent = new FolderContent();
+        folderContents = new FolderContents();
         String folderSelection;
         String fileSelection;
         String fileDataSelection;
 
-        int counter = 1;
-
         foldersToDelete.add(folderName);
 
-        getContentAndTypes(folderName);
-        for (int x = 0; x < contentBuffer.size(); x++) {
-            filterFolderAndFileContent(x);
-        }
+        findAllChildren(folderName);
 
-        while (foldersToDelete.size() > counter) {
-            folderName = foldersToDelete.get(counter);
+        createSQLstrings();
 
-            getContentAndTypes(folderName);
-            for (int x = 0; x < contentBuffer.size(); x++) {
-                filterFolderAndFileContent(x);
-            }
-            counter++;
-        }
-            createStrings();
+        //Folder Deletion
+        folderSelection = createINstatement(Inventory.Folders.TABLE_NAME, Inventory.Folders.FOLDER_NAME_COLUMN, folders);
+        db.execSQL(folderSelection);
 
-            folderSelection = createINstatement(Inventory.Folders.TABLE_NAME, Inventory.Folders.FOLDER_NAME_COLUMN, folders);
-            db.execSQL(folderSelection);
-
+        //File Deletion
         if (filesInFolder){
             fileSelection = createINstatement(Inventory.Files.TABLE_NAME, Inventory.Files.FILE_NAME_COLUMN, files);
             fileDataSelection = createINstatement(Inventory.FileData.TABLE_NAME, Inventory.FileData.FILE_NAME_COLUMN, files);
@@ -66,13 +53,36 @@ public class DatabaseDeleter extends TestZone {
 
         db.close();
     }
+    //The sub-methods of the deleteFolder method. (8 total)
+    private void findAllChildren(String parentFolder){
+        int index = 1;
+        String nextFolder;
+        int totalNumberOfFoldersToDelete;
+
+        getAndFilterChildren(parentFolder);
+
+         do {
+            nextFolder = foldersToDelete.get(index);
+            getAndFilterChildren(nextFolder);
+
+             totalNumberOfFoldersToDelete = foldersToDelete.size();
+            index++;
+        } while (totalNumberOfFoldersToDelete > index);
+
+    }
+    private void getAndFilterChildren(String currentParent){
+        getContentAndTypes(currentParent);
+        for (int x = 0; x < contentBuffer.size(); x++) {
+            filterFolderAndFileContent(x);
+        }
+    }
     private String createINstatement(String table, String column, StringBuilder dataSetToDelete){
         return String.format("DELETE FROM %1s WHERE %2s IN (%3s);", table, column, dataSetToDelete.toString());
     }
         private void getContentAndTypes(String folderName){
-            folderContent = dbReader.getFolderContent(folderName);
-            contentBuffer = (ArrayList) folderContent.getNames().clone();
-            typesBuffer = (ArrayList) folderContent.getTypes().clone();
+            folderContents = dbReader.getFolderContent(folderName);
+            contentBuffer = (ArrayList) folderContents.getNames().clone();
+            typesBuffer = (ArrayList) folderContents.getTypes().clone();
         }
 
         private void filterFolderAndFileContent(int index){
@@ -81,20 +91,20 @@ public class DatabaseDeleter extends TestZone {
             else
                 filesToDelete.add(contentBuffer.get(index));
         }
-    private void createStrings(){
+    private void createSQLstrings(){
 
         for (String folder : foldersToDelete)
-            appendWithSyntax(folders, folder);
+            appendSQLsyntax(folders, folder);
         appendEndingSyntax(folders);
 
         if(!filesToDelete.isEmpty()) {
             for (String file : filesToDelete)
-                appendWithSyntax(files, file);
+                appendSQLsyntax(files, file);
             appendEndingSyntax(files);
         } else
             filesInFolder = false;
     }
-        private void appendWithSyntax(StringBuilder stringBuilder, String item) {
+        private void appendSQLsyntax(StringBuilder stringBuilder, String item) {
             stringBuilder.append("'");
             stringBuilder.append(item);
             stringBuilder.append("', ");
@@ -104,7 +114,7 @@ public class DatabaseDeleter extends TestZone {
         }
 
     // method that deletes a file from Files and FileData tables
-    public void deleteFile(String fileName){
+    void deleteFile(String fileName){
         db = inventoryData.getWritableDatabase();
 
         selection = Inventory.Files.FILE_NAME_COLUMN + " = ?";

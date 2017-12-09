@@ -9,76 +9,72 @@ import java.util.ArrayList;
  * Created by Kevin on 12/3/17.
  */
 
-public class DatabaseReader extends TestZone {
-    ArrayList<String> buffer = new ArrayList<>();
+class DatabaseReader extends DatabaseObjects {
+    private ArrayList<String> buffer = new ArrayList<>();
+    private ArrayList<String> theTypeOfEachName = new ArrayList<>();
+    private String rootDirectory;
 
-    public DatabaseReader(Context context){
+    DatabaseReader(Context context){
         super(context);
     }
 
-    public FolderContent getFolderContent(String parentDirectory) {
-        int folderQuantity;
-        int fileQuantity;
+    //Used by the dbDeleter and for creating the listView
+    FolderContents getFolderContent(String parentDirectory) {
         Cursor cursor;
-        FolderContent folderContent;
+        FolderContents folderContents;
+        String[] argument = {parentDirectory};
         db = inventoryData.getReadableDatabase();
 
         ArrayList<String> namesContainedInFolder = new ArrayList<>();
-        ArrayList<String> theTypeOfEachName = new ArrayList<>();
+
 
         //Collecting folder data
         selection = createSQLselectStatement(
                 Inventory.Folders.FOLDER_NAME_COLUMN,
                 Inventory.Folders.TABLE_NAME,
                 Inventory.Folders.FOLDER_PARENT_COLUMN,
-                parentDirectory,
                 Inventory.Folders.FOLDER_NAME_COLUMN
         );
-        cursor = db.rawQuery(selection, null);
+        cursor = db.rawQuery(selection, argument);
 
-        collectCursorData(cursor, namesContainedInFolder);
-        folderQuantity = namesContainedInFolder.size();
-        fillContentType("Folder", folderQuantity, theTypeOfEachName);
+        collectCursorData(cursor, namesContainedInFolder, "Folder");
 
         //Collecting file data
         selection = createSQLselectStatement(
                 Inventory.Files.FILE_NAME_COLUMN,
                 Inventory.Files.TABLE_NAME,
                 Inventory.Files.FILE_PARENT_COLUMN,
-                parentDirectory,
                 Inventory.Files.FILE_NAME_COLUMN
         );
-        cursor = db.rawQuery(selection, null);
+        cursor = db.rawQuery(selection, argument);
 
-        collectCursorData(cursor, namesContainedInFolder);
-        fileQuantity = namesContainedInFolder.size() - folderQuantity;
-        fillContentType("File", fileQuantity, theTypeOfEachName);
+        collectCursorData(cursor, namesContainedInFolder, "File");
 
-        folderContent = new FolderContent(namesContainedInFolder, theTypeOfEachName);
+        folderContents = new FolderContents(namesContainedInFolder, theTypeOfEachName);
+
         db.close();
         cursor.close();
 
-        return folderContent;
+        return folderContents;
     }
 
     //method used for collecting single-column returns
-    private void collectCursorData(Cursor cursor, ArrayList<String> cursorData) {
+    //also appends the folder content type.
+    private void collectCursorData(Cursor cursor, ArrayList<String> cursorData, String itemType) {
         if (cursor.moveToFirst()) {
             do {
                 cursorData.add(cursor.getString(0));
+                theTypeOfEachName.add(itemType);
             } while (cursor.moveToNext());
         }
     }
-    private void fillContentType(String type, int size, ArrayList<String> contentType){
-        for(int x = 0; x < size; x++){
-            contentType.add(type);
-        }
-    }
-    private String createSQLselectStatement(String column, String table, String whereColumn, String argument, String orderBy) {
-        return String.format("SELECT %1s FROM %2s WHERE %3s = '%4s' ORDER BY %5s", column, table, whereColumn, argument, orderBy);
+
+    private String createSQLselectStatement(String column, String table, String whereColumn, String orderBy) {
+        return String.format("SELECT %s FROM %s WHERE %s = ? ORDER BY %s", column, table, whereColumn, orderBy);
     }
 
-    public FileData getFileContentFromDB(String fileName) {
+    //returns file data into the FileData class
+    FileData getFileContentFromDB(String fileName) {
         db = inventoryData.getReadableDatabase();
         fileData = new FileData();
 
@@ -115,21 +111,26 @@ public class DatabaseReader extends TestZone {
         return fileData;
     }
 
-    public String findRootDirectory(String childDirectory){
+    //Used for the back button.
+    String findPreviousDirectory(String childDirectory){
         db = inventoryData.getReadableDatabase();
+        String[] argument = {childDirectory};
 
         selection = createSQLselectStatement(
                 Inventory.Folders.FOLDER_PARENT_COLUMN,
                 Inventory.Folders.TABLE_NAME,
                 Inventory.Folders.FOLDER_NAME_COLUMN,
-                childDirectory,
                 Inventory.Folders.FOLDER_NAME_COLUMN);
 
-        Cursor cursor = db.rawQuery(selection, null);
+        Cursor cursor = db.rawQuery(selection, argument);
 
-        collectCursorData(cursor, buffer);
+        if (cursor.moveToFirst())
+            rootDirectory = cursor.getString(0);
 
-        return buffer.get(0);
+        db.close();
+        cursor.close();
+
+        return rootDirectory;
 
     }
 }

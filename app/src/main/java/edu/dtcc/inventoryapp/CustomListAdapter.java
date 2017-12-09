@@ -10,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -21,10 +20,9 @@ import java.util.ArrayList;
 class CustomListAdapter extends BaseAdapter implements ListAdapter
 {
     private ArrayList<String> list;
-
     private Context context;
     private Activity activity;
-    private FolderContent folderContent;
+    private FolderContents folderContents;
     private DialogBox dialogBox;
     private int currentIndex;
 
@@ -32,9 +30,9 @@ class CustomListAdapter extends BaseAdapter implements ListAdapter
     private int itemCount;
 
     // constructor that accepts an ArrayList of strings and Context
-    CustomListAdapter(ArrayList<String> list, FolderContent folderContent, Context context, Activity activity) {
+    CustomListAdapter(ArrayList<String> list, FolderContents folderContents, Context context, Activity activity) {
         this.list = list;
-        this.folderContent = folderContent;
+        this.folderContents = folderContents;
         this.context = context;
         this.activity = activity;
         itemCount = 0;
@@ -80,7 +78,8 @@ class CustomListAdapter extends BaseAdapter implements ListAdapter
         // set the list item image
         ImageView listItemImage = (ImageView)view.findViewById(R.id.folderImage);
 
-        if (folderContent.getTypes().get(position).equals("Folder"))
+        //Check what type it is for setting the image
+        if (folderContents.getTypes().get(position).equals("Folder"))
             listItemImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.folder));
         else
             listItemImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.page));
@@ -91,7 +90,6 @@ class CustomListAdapter extends BaseAdapter implements ListAdapter
             @Override
             public void onClick(View v) {
                 dialogBox.newDialogBox(R.layout.editdialog);
-                dialogBox.setDialogBox(dialogBox);
                 currentIndex = position;
             }
         });

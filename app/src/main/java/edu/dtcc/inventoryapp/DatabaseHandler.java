@@ -9,12 +9,12 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Kevin on 11/27/17.
  */
 
-public class DatabaseHandler extends SQLiteOpenHelper {
+class DatabaseHandler extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 6;
-    public static final String DATABASE_NAME = "INVENTORY.db";
+    private static final int DATABASE_VERSION = 6;
+    private static final String DATABASE_NAME = "INVENTORY.db";
 
-    public DatabaseHandler(Context context) {
+    DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

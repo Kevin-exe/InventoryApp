@@ -10,8 +10,8 @@ import android.widget.EditText;
 
 import java.util.ArrayList;
 
-
-public class TestZone {
+//This class also a "testing" class, where db test methods are present
+class DatabaseObjects {
     private Activity activity;
     DatabaseHandler inventoryData;
     SQLiteDatabase db;
@@ -20,31 +20,36 @@ public class TestZone {
     FolderData folderData;
     FileData fileData;
 
-    public TestZone(Context context){
+    DatabaseObjects(Context context){
         inventoryData = new DatabaseHandler(context);
     }
 
-    public TestZone(Context context, Activity activity){
+    DatabaseObjects(Context context, Activity activity){
         try {
             this.activity = activity;
             inventoryData = new DatabaseHandler(context);
         } catch (Exception e) {
-            System.out.println("TestZone Error: " + e.getMessage());
+            System.out.println("DatabaseObjects Error: " + e.getMessage());
         }
     }
 
-    // method that deletes and re-creates the Folders table
-    public void deleteFoldersTable(){
+    //TESTING method that deletes and re-creates the Folders table
+    void deleteEverything(){
         db = inventoryData.getWritableDatabase();
         db.execSQL(Inventory.SQL_DELETE_FOLDERS);
+        db.execSQL(Inventory.SQL_DELETE_FILE_DATA);
+        db.execSQL(Inventory.SQL_DELETE_FILES);
+
         db.execSQL(Inventory.SQL_CREATE_FOLDERS);
+        db.execSQL(Inventory.SQL_CREATE_FILES);
+        db.execSQL(Inventory.SQL_CREATE_FILE_DATA);
 
         db.close();
     }
 
 
-    //Testing
-    public void selectAll(){
+    //TESTING
+    void selectAll(){
         db = inventoryData.getReadableDatabase();
         ArrayList<String> names = new ArrayList<>();
 
@@ -58,15 +63,15 @@ public class TestZone {
             } while (cursor.moveToNext());
 
             for (String Name : names) {
-                System.out.println(Name);
+                System.out.println("TESTING Selecting all: " + Name);
             }
         }
         cursor.close();
         db.close();
 
     }
-    //Testing
-    public void getFromDB(){
+    //TESTING
+    void getFromDB(){
         EditText userSelection = (EditText) activity.findViewById(R.id.test_select);
         String arg = userSelection.getText().toString();
         db = inventoryData.getReadableDatabase();
@@ -93,16 +98,14 @@ public class TestZone {
                 null
         );
 
-        System.out.println("Argument =" + arg + "|");
+        System.out.println("Argument --" + arg + "--");
 
-        cursor.moveToFirst();
-        System.out.println("preCursor: "+ cursor.getString(0));
-        System.out.println("preCursor: "+ cursor.getString(1));
-        System.out.println("preCursor: "+ cursor.getString(2));
         if (cursor.moveToFirst()) {
             do {
+                System.out.println("Acquiring cursor data");
                 rowDetails.add(cursor.getString(0));
-                System.out.println("Acquiring cursor data: " + cursor.getString(0));
+                rowDetails.add(cursor.getString(1));
+                rowDetails.add(cursor.getString(2));
             } while (cursor.moveToNext());
 
             for (String Name : rowDetails) {

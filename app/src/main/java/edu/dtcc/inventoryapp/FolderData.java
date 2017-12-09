@@ -4,28 +4,28 @@ package edu.dtcc.inventoryapp;
  * Created by Kevin on 11/27/17.
  */
 
-public class FolderData {
+class FolderData {
     private String ID;
     private String name;
     private String parent;
     private String oldName;
     private String newName;
 
-    public FolderData() {}
+    FolderData() {}
 
-    public String getOldName() {
+    String getOldName() {
         return oldName;
     }
 
-    public void setOldName(String oldName) {
+    void setOldName(String oldName) {
         this.oldName = oldName;
     }
 
-    public String getNewName() {
+    String getNewName() {
         return newName;
     }
 
-    public void setNewName(String newName) {
+    void setNewName(String newName) {
         this.newName = newName;
     }
 
@@ -41,11 +41,10 @@ public class FolderData {
         return name;
     }
 
+    //Name cannot be blank
     public void setName(String folderName){
         if (folderName.equals(""))
             throw new NoSuchFieldError();
-        else if (folderName.length() < 4)
-            throw new IllegalArgumentException();
         else
             this.name = folderName;
     }

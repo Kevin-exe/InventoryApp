@@ -7,13 +7,14 @@ import android.content.Context;
  * Created by Kevin on 12/3/17.
  */
 
-class DatabaseUpdater extends TestZone {
+class DatabaseUpdater extends DatabaseObjects {
 
-    public DatabaseUpdater(Context context){
+    DatabaseUpdater(Context context){
         super(context);
     }
 
-    public void updateFolderName(FolderData folderData) {
+    //Updates a folder's name and its usages (as a parent)
+    void updateFolderName(FolderData folderData) {
         db = inventoryData.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -32,7 +33,8 @@ class DatabaseUpdater extends TestZone {
         db.close();
     }
 
-    public void updateFile(FileData fileData) {
+
+    void updateFile(FileData fileData) {
         db = inventoryData.getWritableDatabase();
 
         ContentValues values = new ContentValues();

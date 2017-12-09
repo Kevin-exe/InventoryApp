@@ -1,6 +1,5 @@
 package edu.dtcc.inventoryapp;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 
@@ -8,14 +7,14 @@ import android.content.Context;
  * Created by Kevin on 12/3/17.
  */
 
-class DatabaseAdder extends TestZone {
+class DatabaseAdder extends DatabaseObjects {
 
-    public DatabaseAdder(Context context) {
+    DatabaseAdder(Context context) {
         super(context);
     }
 
     // method that creates a new Folder in the DB
-    public void createNewFolderInDB(FolderData folderData) {
+    void createNewFolderInDB(FolderData folderData) {
         db = inventoryData.getWritableDatabase();
 
         values = new ContentValues();
@@ -27,7 +26,7 @@ class DatabaseAdder extends TestZone {
     }
 
     // method that creates a file in the Files Table and the same file in the FileData table
-    public void createNewFile(FileData fileData) {
+    void createNewFile(FileData fileData) {
         db = inventoryData.getWritableDatabase();
 
         values = new ContentValues();

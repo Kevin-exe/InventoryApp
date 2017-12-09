@@ -6,32 +6,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    Context context;
-    Activity activity;
-    DialogBox dialogBox;
-    FolderContent folderContent;
-    FolderData folderData;
-    FileData fileData;
-    FileMenu fileMenu;
-    DatabaseAdder dbAdder;
-    DatabaseReader dbReader;
-    DatabaseUpdater dbUpdater;
-    DatabaseDeleter dbDeleter;
-    EditText newFolderName;
-    String rootDirectory;
-    String currentDirectory;
-    String itemType;
-    String item;
-    int indexOfItem;
+    private Context context;
+    private Activity activity;
+    private DialogBox dialogBox;
+    private FolderContents folderContents;
+    private FolderData folderData;
+    private FileData fileData;
+    private FileMenu fileMenu;
+    private DatabaseAdder dbAdder;
+    private DatabaseReader dbReader;
+    private DatabaseUpdater dbUpdater;
+    private DatabaseDeleter dbDeleter;
+    private String rootDirectory;
+    private String currentDirectory;
+    private String itemType;
+    private String item;
+    private int indexOfItem;
 
-    // ArrayList of strings to hold the list items
+    //Used for listView of content names
     ArrayList<String> list = new ArrayList<>();
 
     // custom list adapter that will handle the list
@@ -40,32 +38,27 @@ public class MainActivity extends AppCompatActivity {
     // ListView for displaying the list
     ListView listView;
 
+    /* Main is primarily used for managing buttons, dialog box buttons, and dealing with the ListView */
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        updateContexts();
+        updateContextAndActivity();
 
         folderData = new FolderData();
         folderData.setParent("Home");
-        createListView("Home");
-        updateActionBar();
-    }
-
-    private void updateContexts(){
-        context = getApplicationContext();
-        activity = MainActivity.this;
+        updateListView();
     }
 
     private void createListView(String directory){
         //Get home directory values
         dbReader = new DatabaseReader(context);
-        folderContent = dbReader.getFolderContent(directory);
-        list = (ArrayList<String>)folderContent.getNames().clone();
+        folderContents = dbReader.getFolderContent(directory);
+        list = (ArrayList<String>) folderContents.getNames().clone();
 
         // initialize custom adapter
-        adapter = new CustomListAdapter(list, folderContent, context, activity);
+        adapter = new CustomListAdapter(list, folderContents, context, activity);
 
         // initialize the list and set the adapter
         listView = (ListView) findViewById(R.id.list);
@@ -76,18 +69,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
+                //determines what is clicked, and takes the correct action
                 String selectedItem = list.get(position);
-                boolean isFolder = folderContent.getTypes().get(position).equals("Folder");
+                boolean isFolder = folderContents.getTypes().get(position).equals("Folder");
 
                     if (isFolder)
                         openFolderContents(selectedItem);
                     else
                         openFileContents(selectedItem);
-
-
-                for (String contents : list) {
-                    System.out.println("contents " + contents);
-                }
             }
         });
     }
@@ -102,36 +91,40 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.file_display);
         fileMenu = new FileMenu(context, activity);
         fileMenu.displayFileData(file);
+    }
 
+    private void updateContextAndActivity(){
+        context = getApplicationContext();
+        activity = MainActivity.this;
     }
     private void updateListView(){
-        createListView(folderData.getParent());
+        String currentParent = folderData.getParent();
+        createListView(currentParent);
         updateActionBar();
+    }
+    private void updateRoot(String rootDirectory) {folderData.setParent(rootDirectory);}
+
+    private void updateActionBar() {
+        getSupportActionBar().setTitle(folderData.getParent());
     }
 
     private void getRootDirectory(){
         if (!(folderData.getParent().equals("Home"))) {
             setContentView(R.layout.activity_main);
             currentDirectory = folderData.getParent();
-            rootDirectory = dbReader.findRootDirectory(currentDirectory);
+            rootDirectory = dbReader.findPreviousDirectory(currentDirectory);
             updateRoot(rootDirectory);
             updateListView();
         }
     }
 
-    private void updateRoot(String rootDirectory){
-        folderData.setParent(rootDirectory);
-    }
-
-    private void updateActionBar() {
-        getSupportActionBar().setTitle(folderData.getParent());
-    }
     private void getItemAndType(){
         indexOfItem = adapter.getCurrentIndex();
-        itemType = folderContent.getTypes().get(indexOfItem);
-        item = folderContent.getNames().get(indexOfItem);
+        itemType = folderContents.getTypes().get(indexOfItem);
+        item = folderContents.getNames().get(indexOfItem);
     }
 
+    // === Dialog box methods below === //
     private void newDialogBox(int layout){
         dialogBox = new DialogBox(activity);
         dialogBox.newDialogBox(layout);
@@ -153,21 +146,17 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.deleteBtn:
                     dbDeleter.deleteFolder(item);
                     updateListView();
-                    dialogBox.endDialogBox();
-                    break;
                 case R.id.closeBtn:
                     dialogBox.endDialogBox();
                     break;
             }
         } else {
             switch (button.getId()) {
-                case R.id.editBtn:
+                case R.id.editBtn: theToasting("Function still in development");
                     break;
                 case R.id.deleteBtn:
                     dbDeleter.deleteFile(item);
                     updateListView();
-                    dialogBox.endDialogBox();
-                    break;
                 case R.id.closeBtn:
                     dialogBox.endDialogBox();
                     break;
@@ -186,9 +175,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.create_file:
                 setContentView(R.layout.create_file);
+            case R.id.close:
                 dialogBox.endDialogBox();
                 break;
-            case R.id.close: dialogBox.endDialogBox(); break;
         }
     }
 
@@ -200,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void renameFolderBoxButtons(View button) {
-        updateContexts();
+        updateContextAndActivity();
         switch (button.getId()) {
             case R.id.submit_new_file_btn:
                 try {
@@ -227,24 +216,45 @@ public class MainActivity extends AppCompatActivity {
 
     private void createNewFolder(){
         try {
-            String parent = folderData.getParent();
-            DatabaseAdder dbAdder = new DatabaseAdder(context);
+            dbAdder = new DatabaseAdder(context);
             dialogBox.collectFolderName(folderData);
             dbAdder.createNewFolderInDB(folderData);
             dialogBox.endDialogBox();
-            createListView(parent);
-        } catch (NoSuchFieldError e){
+            updateListView();
+        } catch (NoSuchFieldError e) {
             theToasting("Field cannot be empty");
-        } catch (IllegalArgumentException e){
-            theToasting("Minimum character length is 4");
         }
+    }
+
+    // === Menu navigation below === //
+
+    // method that loads the main menu screen
+    public void toMainMenu(View button) {
+        setContentView(R.layout.activity_main);
+        updateContextAndActivity();
+        updateRoot("Home");
+        updateListView();
+    }
+
+    //TESTING. Remove later method that loads the DB testing screen
+    public void changeMenu(View button){
+        updateContextAndActivity();
+
+        switch (button.getId()) {
+            case R.id.db_testing: setContentView(R.layout.sql_testing); break;
+            case R.id.back_button:
+                getRootDirectory();
+                break;
+        }
+
+        updateContextAndActivity();
     }
 
     //TESTING. Remove later. Buttons for the db_testing menu
     public void sqlOption(View button) {
-        updateContexts();
+        updateContextAndActivity();
 
-        TestZone testing = new TestZone(context, activity);
+        DatabaseObjects testing = new DatabaseObjects(context, activity);
 
         try {
             switch (button.getId()) {
@@ -257,15 +267,16 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.add_folder:
                     break;
                 case R.id.delete_all:
-                    testing.deleteFoldersTable();
-                    new FolderContent();
+                    testing.deleteEverything();
+                    new FolderContents();
                     break;
                 case R.id.get_contents:
-                    folderContent = dbReader.getFolderContent("Home");
+                    folderContents = dbReader.getFolderContent("Home");
 
-                    for (int x = 0; x < folderContent.getNames().size(); x++) {
-                        System.out.println("Folder: " + folderContent.getNames().get(x) + "\tType: " + folderContent.getTypes().get(x));
+                    for (int x = 0; x < folderContents.getNames().size(); x++) {
+                        System.out.println("Folder: " + folderContents.getNames().get(x) + "\tType: " + folderContents.getTypes().get(x));
                     }
+
                     break;
             }
         } catch (Exception e) {
@@ -273,28 +284,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //TESTING. Remove later method that loads the DB testing screen
-    public void changeMenu(View button){
-        updateContexts();
-
-        switch (button.getId()) {
-//            case R.id.db_testing: setContentView(R.layout.sql_testing); break;
-            case R.id.back_button:
-                getRootDirectory();
-                break;
-        }
-
-        updateContexts();
-    }
-
-    // method that loads the main menu screen
-    public void toMainMenu(View button) {
-        setContentView(R.layout.activity_main);
-        updateContexts();
-        createListView("Home");
-        updateRoot("Home");
-        updateActionBar();
-    }
 
     // method that creates toast messages with the passed string
     private void theToasting(String message) {
