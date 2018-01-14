@@ -17,6 +17,7 @@ class FileMenu {
     private String parent;
     private DatabaseAdder dbAdder;
     private DatabaseReader dbReader;
+    private boolean isOpen = false;
 
     FileMenu(Context context, Activity activity){
         this.activity = activity;
@@ -64,6 +65,21 @@ class FileMenu {
     private void getFileData(String fileName){
         dbReader = new DatabaseReader(context);
         fileData = dbReader.getFileContentFromDB(fileName);
+    }
+
+    public void openFile()
+    {
+        isOpen = true;
+    }
+
+    public void closeFile()
+    {
+        isOpen = false;
+    }
+
+    public boolean fileIsOpen()
+    {
+        return isOpen;
     }
 
 

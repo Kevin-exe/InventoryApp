@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.file_display);
         fileMenu = new FileMenu(context, activity);
         fileMenu.displayFileData(file);
+        fileMenu.openFile();
     }
 
     private void updateContextAndActivity(){
@@ -110,10 +111,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void getRootDirectory(){
         if (!(folderData.getParent().equals("Home"))) {
+            if (fileMenu.fileIsOpen())
+            {
+                fileMenu.closeFile();
+            }
+            else
+            {
+                currentDirectory = folderData.getParent();
+                rootDirectory = dbReader.findPreviousDirectory(currentDirectory);
+                updateRoot(rootDirectory);
+            }
+
             setContentView(R.layout.activity_main);
-            currentDirectory = folderData.getParent();
-            rootDirectory = dbReader.findPreviousDirectory(currentDirectory);
-            updateRoot(rootDirectory);
             updateListView();
         }
     }

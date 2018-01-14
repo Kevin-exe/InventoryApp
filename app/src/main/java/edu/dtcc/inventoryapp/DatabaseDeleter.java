@@ -53,6 +53,7 @@ class DatabaseDeleter extends DatabaseObjects {
 
         db.close();
     }
+
     //The sub-methods of the deleteFolder method. (8 total)
     private void findAllChildren(String parentFolder){
         int index = 1;
@@ -71,30 +72,32 @@ class DatabaseDeleter extends DatabaseObjects {
             totalNumberOfFoldersToDelete = foldersToDelete.size();
             index++;
         }
-
-
     }
+
     private void getAndFilterChildren(String currentParent){
         getContentAndTypes(currentParent);
         for (int x = 0; x < contentBuffer.size(); x++) {
             filterFolderAndFileContent(x);
         }
     }
+
     private String createINstatement(String table, String column, StringBuilder dataSetToDelete){
         return String.format("DELETE FROM %1s WHERE %2s IN (%3s);", table, column, dataSetToDelete.toString());
     }
-        private void getContentAndTypes(String folderName){
-            folderContents = dbReader.getFolderContent(folderName);
-            contentBuffer = (ArrayList) folderContents.getNames().clone();
-            typesBuffer = (ArrayList) folderContents.getTypes().clone();
-        }
 
-        private void filterFolderAndFileContent(int index){
-            if (typesBuffer.get(index).equals("Folder"))
-                foldersToDelete.add(contentBuffer.get(index));
-            else
-                filesToDelete.add(contentBuffer.get(index));
-        }
+    private void getContentAndTypes(String folderName){
+        folderContents = dbReader.getFolderContent(folderName);
+        contentBuffer = (ArrayList) folderContents.getNames().clone();
+        typesBuffer = (ArrayList) folderContents.getTypes().clone();
+    }
+
+    private void filterFolderAndFileContent(int index){
+        if (typesBuffer.get(index).equals("Folder"))
+            foldersToDelete.add(contentBuffer.get(index));
+        else
+            filesToDelete.add(contentBuffer.get(index));
+    }
+
     private void createSQLstrings(){
 
         for (String folder : foldersToDelete)
@@ -108,14 +111,16 @@ class DatabaseDeleter extends DatabaseObjects {
         } else
             filesInFolder = false;
     }
-        private void appendSQLsyntax(StringBuilder stringBuilder, String item) {
-            stringBuilder.append("'");
-            stringBuilder.append(item);
-            stringBuilder.append("', ");
-        }
-        private void appendEndingSyntax(StringBuilder stringBuilder){
-            stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length());
-        }
+
+    private void appendSQLsyntax(StringBuilder stringBuilder, String item) {
+        stringBuilder.append("'");
+        stringBuilder.append(item);
+        stringBuilder.append("', ");
+    }
+
+    private void appendEndingSyntax(StringBuilder stringBuilder){
+        stringBuilder.delete(stringBuilder.length() - 2, stringBuilder.length());
+    }
 
     // method that deletes a file from Files and FileData tables
     void deleteFile(String fileName){
