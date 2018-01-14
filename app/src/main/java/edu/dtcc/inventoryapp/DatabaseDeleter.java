@@ -61,13 +61,17 @@ class DatabaseDeleter extends DatabaseObjects {
 
         getAndFilterChildren(parentFolder);
 
-         do {
+        totalNumberOfFoldersToDelete = foldersToDelete.size();
+
+        while (totalNumberOfFoldersToDelete > index)
+        {
             nextFolder = foldersToDelete.get(index);
             getAndFilterChildren(nextFolder);
 
-             totalNumberOfFoldersToDelete = foldersToDelete.size();
+            totalNumberOfFoldersToDelete = foldersToDelete.size();
             index++;
-        } while (totalNumberOfFoldersToDelete > index);
+        }
+
 
     }
     private void getAndFilterChildren(String currentParent){
