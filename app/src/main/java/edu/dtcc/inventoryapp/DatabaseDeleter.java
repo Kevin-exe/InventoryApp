@@ -58,9 +58,8 @@ class DatabaseDeleter extends DatabaseObjects {
     private void findAllChildren(String parentFolder){
         int index = 0;
         String nextFolder;
-        int totalNumberOfFoldersToDelete = foldersToDelete.size();
-
         getAndFilterChildren(parentFolder);
+        int totalNumberOfFoldersToDelete = foldersToDelete.size();
 
         while (totalNumberOfFoldersToDelete > index)
         {

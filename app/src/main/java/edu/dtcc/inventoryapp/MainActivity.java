@@ -125,6 +125,13 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_main);
             updateListView();
         }
+        else
+        {
+            setContentView(R.layout.activity_main);
+            updateContextAndActivity();
+            updateRoot("Home");
+            updateListView();
+        }
     }
 
     private void getItemAndType(){
